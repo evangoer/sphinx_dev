@@ -1,0 +1,25 @@
+.. sffms documentation master file, created by
+   sphinx-quickstart on Wed Dec 29 13:40:00 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to sffms's documentation!
+=================================
+
+This is the documentation for hacking sffms support into Sphinx. It's also used
+as a test driver for the sffms module itself.
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   ch01.txt
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
