@@ -4,7 +4,8 @@ from sphinx.builders import Builder
 def setup(app):
 	
 	# TODO currently ignored
-	app.add_config_value('sffms_activate', False, False)
+	app.add_config_value('sffms_activate', False, '')
+	app.add_config_value('sffms_frenchspacing', True, '')
 
 	app.add_builder(SffmsBuilder)
 	
@@ -41,6 +42,7 @@ class SffmsBuilder(Builder):
 	# TODO need to actually write something
 	def write_doc(self, docname, doctree):
 		print "IM IN UR DOCNAME! IM WRITIN UR DOC! (%s)" % docname
+		print "Frenchspacing is set to %r" % self.config.sffms_frenchspacing
 
 # TODO
 class SffmsWriter(writers.Writer): pass
