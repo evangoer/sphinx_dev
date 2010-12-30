@@ -1,6 +1,5 @@
 from docutils import nodes, writers
 from sphinx.builders import Builder
-from 
 
 def setup(app):
 	
@@ -18,7 +17,10 @@ class SffmsBuilder(Builder):
 	name = "sffms"
 	format = "latex"
 	
-	# Grab initial configuration
+	# Could copy image list from LaTeXBuilder. But for now, images aren't supported.
+	supported_image_types = []  
+	
+	# TODO grab initial sffms configuration
 	def init(self):
 		pass
 	
@@ -29,9 +31,16 @@ class SffmsBuilder(Builder):
 	def prepare_writing(self, docnames):
 		pass
 	
+	def get_relative_uri(self, from_, to, typ=None):
+		return self.get_target_uri(to, typ)
+	
+	# LaTeXBuilder has slightly more complicated behavior here, might need to copy wholesale	
+	def get_target_uri(self, docname, typ):
+		return '%' + docname
+	
 	# TODO need to actually write something
 	def write_doc(self, docname, doctree):
-		print "IM IN UR BUILDER! IM WRITIN UR DOC!"
+		print "IM IN UR DOCNAME! IM WRITIN UR DOC! (%s)" % docname
 
 # TODO
 class SffmsWriter(writers.Writer): pass
