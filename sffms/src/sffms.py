@@ -3,9 +3,44 @@ from sphinx.builders import Builder
 
 def setup(app):
 	
-	# TODO currently ignored
-	app.add_config_value('sffms_activate', False, '')
-	app.add_config_value('sffms_frenchspacing', True, '')
+	
+	# Should be one of: submission, novel, anon, baen, daw, wotf, nonsubmission. TODO: validate value.
+	app.add_config_value('sffms_submission_type', 'submission', '')
+
+	# Should be one of: smart, dumb, None. TODO: validate value.
+	app.add_config_value('sffms_quote_type', None, '')
+
+	# Removes the title page. Only usable when submission type is 'nonsubmission'.
+	app.add_config_value('sffms_notitle', False, '')
+	app.add_config_value('sffms_courier', False, '')
+	app.add_config_value('sffms_geometry', False, '')
+	
+	# 'If you use geometry with the intent of fixing your paper size, you should declare the paper size explicitly.'
+	# Figure out what DeMarco is saying here. Can I declare this if geometry = False? Is it required if geometry = True? 
+	# Possible values are 'a4paper', 'letterpaper', and others as defined in the geometry package.
+	app.add_config_value('sffms_papersize', None, '')
+
+	# Required.
+	app.add_config_value('sffms_title', None, '')
+	
+	# Optional. sffms uses the title in place of the running title if it is absent.
+	app.add_config_value('sffms_runningtitle', None, '')
+	
+	# Required.
+	app.add_config_value('sffms_author', None, '')
+
+	app.add_config_value('sffms_authorname', None, '')
+	app.add_config_value('sffms_surname', None, '')
+	
+	# In sffms, this is a free-form multi-line piece of text. Need to think how to specify it. Triple quotes?
+	app.add_config_value('sffms_address', None, '')
+	
+	# Set the wordcount manually to some value. Can also set to be empty, to suppress. 
+	# Implement with False? None? []? Perhaps the default is True, and the user can set it to be a number or None.
+	app.add_config_value('sffms_wordcount', None, '')
+
+	app.add_config_value('sffms_disposable', False, '')
+	app.add_config_value('sffms_frenchspacing', False, '')
 
 	app.add_builder(SffmsBuilder)
 	
