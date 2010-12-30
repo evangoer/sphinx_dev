@@ -3,3 +3,11 @@ Chapter 1: The Test
 *******************
 
 This is a test chapter.
+
+.. todo:: 
+
+   This is a TODO item.
+
+And now we are outside the TODO.
+
+.. todolist::
