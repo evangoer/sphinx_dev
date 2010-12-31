@@ -81,6 +81,7 @@ class SffmsBuilder(Builder):
     
     # TODO need to actually write something
     def write_doc(self, docname, doctree):
+        print doctree.pformat()
         destination = StringOutput(encoding='utf-8')
         output = self.writer.write(doctree, destination)
         print output
@@ -115,7 +116,18 @@ class SffmsTranslator(nodes.NodeVisitor):
     def __init__(self, document, builder):
         nodes.NodeVisitor.__init__(self, document)
         self.assign_node_handlers()
+
+    def astext(self):
+        return ''.join(self.body)
     
+    def visit_Text(self, node):
+        self.body.append(node.astext())
+        
+    def visit_compact_paragraph(self, node):
+        pass
+
+    def depart_Text(self, node): pass
+        
     def assign_node_handlers(self):
         nodenames = [
             ('abbreviation', 'skip'),
@@ -234,13 +246,4 @@ class SffmsTranslator(nodes.NodeVisitor):
 
     def default_skip_handler(self, node): raise nodes.SkipNode
     
-    def astext(self):
-        return ''.join(self.body)
-    
-    def visit_Text(self, node):
-        self.body.append(node.astext())
-        
-    def visit_compact_paragraph(self, node):
-        pass
 
-    def depart_Text(self, node): pass
