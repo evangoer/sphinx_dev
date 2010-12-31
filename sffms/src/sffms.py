@@ -87,12 +87,127 @@ class SffmsBuilder(Builder):
 		
 
 # TODO
-class SffmsWriter(writers.Writer): pass
+class SffmsWriter(writers.Writer):
+	
+	body = []
+	output = None
 
+	def __init__(self):
+		for name in self.nodenames:
+			setattr(self, 'visit_'+name, self.default_visit)
+			setattr(self, 'depart_'+name, self.default_visit)
 
-# for most visit_ and depart_ methods, looks like we do NOT care about the actual content of the node
-# we just care about what precedes and follows
-# the exception is for Text nodes, we need to append a node.astext()
+	def default_visit(self): pass
 
-# a writer needs a self.body = []
-# a writer also has a self.output = None, which is then set by calling write()
+	def default_depart(self): pass
+
+	# for most visit_ and depart_ methods, we do NOT care about the actual content of the node
+	# we just care about what precedes and follows
+	# the exception is for Text nodes, we need to append a node.astext()
+
+	# a writer needs a self.body = []
+	# a writer also has a self.output = None, which is then set by calling write()
+
+	nodenames = [
+		'Text',
+		'abbreviation',
+		'acks',
+		'admonition',
+		'attribution',
+		'block_quote',
+		'bullet_list',
+		'caption',
+		'centered',
+		'citation',
+		'citation_reference',
+		'classifier',
+		'collected_footnote',
+		'colspec',
+		'comment',
+		'compound',
+		'container',
+		'decoration',
+		'definition',
+		'definition_list',
+		'definition_list_item',
+		'desc',
+		'desc_addname',
+		'desc_annotation',
+		'desc_content',
+		'desc_name',
+		'desc_optional',
+		'desc_parameter',
+		'desc_parameterlist',
+		'desc_returns',
+		'desc_signature',
+		'desc_type',
+		'description',
+		'docinfo',
+		'document',
+		'download_reference',
+		'emphasis',
+		'entry',
+		'enumerated_list',
+		'field',
+		'field_list',
+		'figure',
+		'footer',
+		'footnote',
+		'footnote_reference',
+		'generated',
+		'glossary',
+		'header',
+		'highlightlang',
+		'hlist',
+		'hlistcol',
+		'image',
+		'index',
+		'inline',
+		'label',
+		'legend',
+		'line',
+		'line_block',
+		'list_item',
+		'literal',
+		'literal_block',
+		'literal_emphasis',
+		'meta',
+		'option',
+		'option_argument',
+		'option_group',
+		'option_list',
+		'option_list_item',
+		'option_string',
+		'paragraph',
+		'pending_xref',
+		'problematic',
+		'production',
+		'productionlist',
+		'raw',
+		'refcount',
+		'reference',
+		'row',
+		'rubric',
+		'section',
+		'seealso',
+		'start_of_file',
+		'strong',
+		'subscript',
+		'substitution_definition',
+		'substitution_reference',
+		'subtitle',
+		'superscript',
+		'system_message',
+		'table',
+		'tabular_col_spec',
+		'target',
+		'tbody',
+		'term',
+		'tgroup',
+		'thead',
+		'title',
+		'title_reference',
+		'topic',
+		'transition',
+		'versionmodified'
+	]
