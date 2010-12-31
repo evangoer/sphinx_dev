@@ -1,8 +1,11 @@
 from docutils import nodes, writers
+from docutils.io import StringOutput
 from sphinx.builders import Builder
+from sphinx.util.osutil import ensuredir, os_path
+
+from sphinx.writers.text import TextWriter
 
 def setup(app):
-	
 	
 	# Should be one of: submission, novel, anon, baen, daw, wotf, nonsubmission. TODO: validate value.
 	app.add_config_value('sffms_submission_type', 'submission', '')
@@ -52,6 +55,8 @@ class SffmsBuilder(Builder):
 	
 	name = "sffms"
 	format = "latex"
+	out_suffix = ".tex"
+	writer = None
 	
 	# Could copy image list from LaTeXBuilder. But for now, images aren't supported.
 	supported_image_types = []  
@@ -65,7 +70,7 @@ class SffmsBuilder(Builder):
 	
 	# TODO need to actually instantiate a writer
 	def prepare_writing(self, docnames):
-		pass
+		self.writer = TextWriter(self)
 	
 	def get_relative_uri(self, from_, to, typ=None):
 		return self.get_target_uri(to, typ)
@@ -76,8 +81,18 @@ class SffmsBuilder(Builder):
 	
 	# TODO need to actually write something
 	def write_doc(self, docname, doctree):
-		print "IM IN UR DOCNAME! IM WRITIN UR DOC! (%s)" % docname
-		print "Frenchspacing is set to %r" % self.config.sffms_frenchspacing
+		destination = StringOutput(encoding='utf-8')
+		self.writer.write(doctree, destination)
+		print self.writer.output
+		
 
 # TODO
 class SffmsWriter(writers.Writer): pass
+
+
+# for most visit_ and depart_ methods, looks like we do NOT care about the actual content of the node
+# we just care about what precedes and follows
+# the exception is for Text nodes, we need to append a node.astext()
+
+# a writer needs a self.body = []
+# a writer also has a self.output = None, which is then set by calling write()
