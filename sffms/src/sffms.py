@@ -70,7 +70,7 @@ class SffmsBuilder(Builder):
 	
 	# TODO need to actually instantiate a writer
 	def prepare_writing(self, docnames):
-		self.writer = TextWriter(self)
+		self.writer = SffmsWriter(self)
 	
 	def get_relative_uri(self, from_, to, typ=None):
 		return self.get_target_uri(to, typ)
@@ -82,34 +82,60 @@ class SffmsBuilder(Builder):
 	# TODO need to actually write something
 	def write_doc(self, docname, doctree):
 		destination = StringOutput(encoding='utf-8')
-		self.writer.write(doctree, destination)
-		print self.writer.output
+		output = self.writer.write(doctree, destination)
+		print output
 		
 
 # TODO
 class SffmsWriter(writers.Writer):
 	
-	body = []
+	# a writer has a self.output = None, which is then set by calling translate()
 	output = None
+	
+	# a writer has a self.document = None, which is then set by calling write()
+	document = None
+	
+	def __init__(self, builder):
+		writers.Writer.__init__(self)
+		self.builder = builder
 
-	def __init__(self):
+	# at this point, self.document has been set by write()
+	def translate(self):
+		translator = SffmsTranslator(self.document, self.builder)
+		self.document.walkabout(translator)
+		self.output = translator.astext()
+
+
+
+class SffmsTranslator(nodes.NodeVisitor):
+	
+	# a Translator needs a self.body = [] to append to?
+	body = []
+	
+	def __init__(self, document, builder):
+		nodes.NodeVisitor.__init__(self, document)
+		
 		for name in self.nodenames:
 			setattr(self, 'visit_'+name, self.default_visit)
 			setattr(self, 'depart_'+name, self.default_visit)
-
-	def default_visit(self): pass
-
-	def default_depart(self): pass
 
 	# for most visit_ and depart_ methods, we do NOT care about the actual content of the node
 	# we just care about what precedes and follows
 	# the exception is for Text nodes, we need to append a node.astext()
 
-	# a writer needs a self.body = []
-	# a writer also has a self.output = None, which is then set by calling write()
+	def default_visit(self, node): pass
 
+	def default_depart(self, node): pass
+	
+	def astext(self):
+		return ''.join(self.body)
+	
+	def visit_Text(self, node):
+		self.body.append(node.astext())
+
+	def depart_Text(self, node): pass
+	
 	nodenames = [
-		'Text',
 		'abbreviation',
 		'acks',
 		'admonition',
@@ -124,6 +150,7 @@ class SffmsWriter(writers.Writer):
 		'collected_footnote',
 		'colspec',
 		'comment',
+		'compact_paragraph',
 		'compound',
 		'container',
 		'decoration',
