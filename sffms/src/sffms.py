@@ -93,12 +93,11 @@ class SffmsBuilder(Builder):
     def get_target_uri(self, docname, typ):
         return '%' + docname
 
-    # We have to override the default write() implementation because we are writing 
-    # to a single file in TOC order. So rather than getting write_doc() called for us
-    # multiple times, we need to assemble one big inline doctree and call write_doc()
-    # once. 
+    # Overriding the default write() implementation because we must write to
+    # a single file in TOC order. So rather than getting write_doc() called for us
+    # multiple times, we assemble one big inline doctree and call write_doc() once.
     # 
-    # Code borrowed from SinglePageHTML, since that seems like the simplest implementation.
+    # Code adapted from SinglePageHTML, since that seems to be the simplest implementation.
     def write(self, *ignored):
         docnames = self.env.all_docs
 
@@ -151,7 +150,6 @@ class SffmsWriter(writers.Writer):
 
 class SffmsTranslator(nodes.NodeVisitor):
     
-    header = []
     body = []
     builder = None
     
@@ -161,12 +159,7 @@ class SffmsTranslator(nodes.NodeVisitor):
         self.assign_node_handlers()
 
     def astext(self):
-        self.generate_header()
-        return ''.join(self.header + self.body)
-        
-    def generate_header(self):
-        if self.builder.config.sffms_frenchspacing:
-            self.header.append('\n\\frenchspacing\n')
+        return ''.join(self.body)
     
     def visit_Text(self, node):
         self.body.append(node.astext())
@@ -179,7 +172,7 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_paragraph(self, node):
         self.body.append('\n')
     
-    # Here we need to figure out \newscene and \chapter, and titles.    
+    # Here is where we need to figure out \newscene, \chapter, and titles.    
     def visit_section(self, node): pass
     
     def depart_section(self, node): pass
