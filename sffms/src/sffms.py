@@ -2,6 +2,8 @@ from docutils import nodes, writers
 from docutils.io import StringOutput
 from sphinx.builders import Builder
 from sphinx.util.osutil import ensuredir, os_path
+from sphinx.util.console import bold, darkgreen
+from sphinx.util.nodes import inline_all_toctrees
 
 from sphinx.writers.text import TextWriter
 
@@ -90,13 +92,43 @@ class SffmsBuilder(Builder):
     # LaTeXBuilder has slightly more complicated behavior here, might need to copy wholesale    
     def get_target_uri(self, docname, typ):
         return '%' + docname
+
+    # We have to override the default write() implementation because we are writing 
+    # to a single file in TOC order. So rather than getting write_doc() called for us
+    # multiple times, we need to assemble one big inline doctree and call write_doc()
+    # once. 
+    # 
+    # Code borrowed from SinglePageHTML, since that seems like the simplest implementation.
+    def write(self, *ignored):
+        docnames = self.env.all_docs
+
+        self.info(bold('preparing documents...'), nonl=True)
+        self.prepare_writing(docnames)
+        self.info('done')
+
+        self.info(bold('assembling single document... '), nonl=True)
+        doctree = self.assemble_doctree()
+        self.info()
+        self.info(bold('writing... '), nonl=True)
+        self.write_doc(self.config.master_doc, doctree)
+        self.info('done')
+        
+    def assemble_doctree(self):
+        master = self.config.master_doc
+        tree = self.env.get_doctree(master)
+        tree = inline_all_toctrees(self, set() , master, tree, darkgreen)
+        tree['docname'] = master
+        print tree.pformat()
+        
+        # skip code that checks references, etc.
+        return tree
     
     def write_doc(self, docname, doctree):
         # print doctree.pformat()
         destination = StringOutput(encoding='utf-8')
         output = self.writer.write(doctree, destination)
         print output
-        
+    
 
 class SffmsWriter(writers.Writer):
     
@@ -152,11 +184,9 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def depart_section(self, node): pass
     
-    def visit_document(self, node):
-        self.header = []
-        self.body = []
+    def visit_document(self, node): pass
     
-    def depart_document(self,node): pass
+    def depart_document(self, node): pass
     
     def visit_strong(self, node):
         self.body.append('\\textbf{')
@@ -216,7 +246,7 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('colspec', 'skip'),
             ('comment', 'skip'),
             ('compact_paragraph', 'skip'),
-            ('compound', 'skip'),
+            ('compound', 'pass'),
             ('container', 'skip'),
             ('decoration', 'skip'),
             ('definition', 'skip'),
@@ -310,4 +340,9 @@ class SffmsTranslator(nodes.NodeVisitor):
 
     def default_skip_handler(self, node): raise nodes.SkipNode
     
-
+class SffmsHeader(object):
+    
+    config = None
+    
+    def __init__(self, config):
+        self.config = config
