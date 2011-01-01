@@ -84,7 +84,7 @@ class SffmsBuilder(Builder):
         return 'all documents'
     
     def prepare_writing(self, docnames):
-        self.writer = SffmsWriter()
+        self.writer = SffmsWriter(self.config)
     
     def get_relative_uri(self, from_, to, typ=None):
         return self.get_target_uri(to, typ)
@@ -137,9 +137,13 @@ class SffmsWriter(writers.Writer):
     # a writer has a self.document = None, which is then set by calling write()
     document = None
 
+    def __init__(self, config):
+        writers.Writer.__init__(self)
+        self.config = config
+
     # at this point, self.document has been set by write()
     def translate(self):
-        translator = SffmsTranslator(self.document)
+        translator = SffmsTranslator(self.document, self.config)
         self.document.walkabout(translator)
         self.output = translator.astext()
 
@@ -148,8 +152,9 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     body = []
     
-    def __init__(self, document):
+    def __init__(self, document, config):
         nodes.NodeVisitor.__init__(self, document)
+        self.header = SffmsHeader(config)
         self.assign_node_handlers()
 
     def astext(self):
@@ -171,7 +176,8 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def depart_section(self, node): pass
     
-    def visit_document(self, node): pass
+    def visit_document(self, node):
+        self.body.append('\nTHIS IS A HEADER\n\n')
     
     def depart_document(self, node): pass
     
@@ -329,7 +335,17 @@ class SffmsTranslator(nodes.NodeVisitor):
     
 class SffmsHeader(object):
     
-    config = None
+    header = []
     
     def __init__(self, config):
         self.config = config
+    
+    def astext(self):
+        self.set_frenchspacing()
+        return '\n'.join(self.header)
+        
+    def set_frenchspacing(self):
+        if self.config.sffms_frenchspacing:
+            header.append('\\frenchspacing')
+    
+    

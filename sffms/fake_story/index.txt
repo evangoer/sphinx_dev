@@ -15,6 +15,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   z-chapter.txt
    ch01.txt
 
 Indices and tables

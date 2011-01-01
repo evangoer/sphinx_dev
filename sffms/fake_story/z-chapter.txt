@@ -1,0 +1,5 @@
+Chapter Z: for Zombie!
+======================
+
+We're testing document order by adding another chapter. Chapter Z 
+comes before Chapter 1, of course.
