@@ -4,5 +4,10 @@ Chapter 1: The Test
 
 This is a test chapter.
 
-And now we are outside the TODO.
+This is a paragraph with some *emphasized words*.
 
+In this paragraph, we have some **strong emphasis**, which is a little more exciting.
+
+In this paragraph, we thought, :thought:`Wouldn't it be nice to 
+have some sort of 'thought' markup?` Indeed it would, friend. 
+Indeed it would. Even better? :textsc:`Small caps text!`

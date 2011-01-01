@@ -45,8 +45,21 @@ def setup(app):
     app.add_config_value('sffms_disposable', False, '')
     app.add_config_value('sffms_frenchspacing', False, '')
 
-    app.add_builder(SffmsBuilder)
+
+    app.add_generic_role('thought', thought)
+    app.add_generic_role('textsc', textsc)
     
+    app.add_builder(SffmsBuilder)
+
+# custom inline styles from sffms: thought and textsc
+#
+# TODO: Danger Will Robinson! Adding these custom roles means
+# we are screwing up all the other builds. How do we patch up
+# the other builders?
+class thought(nodes.Inline, nodes.TextElement): pass
+
+class textsc(nodes.Inline, nodes.TextElement): pass
+
 class SffmsBuilder(Builder):
     """
     Builder for sffms-style LaTeX. Totally different output
@@ -68,7 +81,6 @@ class SffmsBuilder(Builder):
     def get_outdated_docs(self):
         return 'all documents'
     
-    # TODO need to actually instantiate a writer
     def prepare_writing(self, docnames):
         self.writer = SffmsWriter(self)
     
@@ -87,7 +99,6 @@ class SffmsBuilder(Builder):
         print output
         
 
-# TODO
 class SffmsWriter(writers.Writer):
     
     # a writer has a self.output = None, which is then set by calling translate()
@@ -107,7 +118,6 @@ class SffmsWriter(writers.Writer):
         self.output = translator.astext()
 
 
-
 class SffmsTranslator(nodes.NodeVisitor):
     
     # a Translator needs a self.body = [] to append to?
@@ -122,12 +132,48 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def visit_Text(self, node):
         self.body.append(node.astext())
-        
-    def visit_compact_paragraph(self, node):
-        pass
-
+    
     def depart_Text(self, node): pass
         
+    def visit_paragraph(self, node):
+        self.body.append('\n')
+        
+    def depart_paragraph(self, node):
+        self.body.append('\n')
+    
+    # Here we need to figure out \newscene and \chapter, and titles.    
+    def visit_section(self, node): pass
+    
+    def depart_section(self, node): pass
+    
+    def visit_document(self, node): pass
+    
+    def depart_document(self,node): pass
+    
+    def visit_strong(self, node):
+        self.body.append('\\textbf{')
+    
+    def depart_strong(self, node):
+        self.body.append('}')
+    
+    def visit_emphasis(self, node):
+        self.body.append('\emph{')
+        
+    def depart_emphasis(self, node):
+        self.body.append('}')
+
+    def visit_thought(self, node):
+        self.body.append('\\thought{')
+    
+    def depart_thought(self, node):
+        self.body.append('}')
+    
+    def visit_textsc(self, node):
+        self.body.append('\\textsc{')
+    
+    def depart_textsc(self, node):
+        self.body.append('}')
+    
     def assign_node_handlers(self):
         nodenames = [
             ('abbreviation', 'skip'),
@@ -164,9 +210,7 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('desc_type', 'skip'),
             ('description', 'skip'),
             ('docinfo', 'skip'),
-            ('document', 'pass'),
             ('download_reference', 'skip'),
-            ('emphasis', 'skip'),
             ('entry', 'skip'),
             ('enumerated_list', 'skip'),
             ('field', 'skip'),
@@ -199,7 +243,6 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('option_list', 'skip'),
             ('option_list_item', 'skip'),
             ('option_string', 'skip'),
-            ('paragraph', 'pass'),
             ('pending_xref', 'skip'),
             ('problematic', 'skip'),
             ('production', 'skip'),
@@ -209,10 +252,8 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('reference', 'skip'),
             ('row', 'skip'),
             ('rubric', 'skip'),
-            ('section', 'pass'),
             ('seealso', 'skip'),
             ('start_of_file', 'pass'),
-            ('strong', 'skip'),
             ('subscript', 'skip'),
             ('substitution_definition', 'skip'),
             ('substitution_reference', 'skip'),
