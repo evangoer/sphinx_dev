@@ -91,9 +91,8 @@ class SffmsBuilder(Builder):
     def get_target_uri(self, docname, typ):
         return '%' + docname
     
-    # TODO need to actually write something
     def write_doc(self, docname, doctree):
-        print doctree.pformat()
+        # print doctree.pformat()
         destination = StringOutput(encoding='utf-8')
         output = self.writer.write(doctree, destination)
         print output
@@ -173,6 +172,24 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def depart_textsc(self, node):
         self.body.append('}')
+        
+    def visit_line_block(self, node):
+        self.body.append('\n\\begin{verse}')
+        
+    def depart_line_block(self, node):
+        self.body.append('\n\end{verse}\n')
+    
+    def visit_line(self, node):
+        self.body.append('\n')
+    
+    def depart_line(self, node):
+        pass
+        
+    def visit_block_quote(self, node):
+        self.body.append('\n\\begin{quotation}')
+        
+    def depart_block_quote(self, node):
+        self.body.append('\end{quotation}\n')
     
     def assign_node_handlers(self):
         nodenames = [
@@ -180,7 +197,6 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('acks', 'skip'),
             ('admonition', 'skip'),
             ('attribution', 'skip'),
-            ('block_quote', 'skip'),
             ('bullet_list', 'skip'),
             ('caption', 'skip'),
             ('centered', 'skip'),
@@ -230,8 +246,6 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('inline', 'skip'),
             ('label', 'skip'),
             ('legend', 'skip'),
-            ('line', 'skip'),
-            ('line_block', 'skip'),
             ('list_item', 'skip'),
             ('literal', 'skip'),
             ('literal_block', 'skip'),

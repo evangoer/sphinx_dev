@@ -5,9 +5,21 @@ Chapter 1: The Test
 This is a test chapter.
 
 This is a paragraph with some *emphasized words*.
-
-In this paragraph, we have some **strong emphasis**, which is a little more exciting.
+It also has some **strong emphasis**, which is a little more exciting.
 
 In this paragraph, we thought, :thought:`Wouldn't it be nice to 
 have some sort of 'thought' markup?` Indeed it would, friend. 
 Indeed it would. Even better? :textsc:`Small caps text!`
+
+  "My name is Inigo Montoya. You killed my father. Prepare to die."
+
+  "Stop saying that!"
+
+Here is another paragraph. And now for some verse:
+
+| OH POINTY BIRDS
+| OH POINTY POINTY
+| ANOINT MY HEAD
+| ANOINTY NOINTY
+
+
