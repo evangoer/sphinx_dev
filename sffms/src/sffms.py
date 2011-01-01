@@ -119,15 +119,22 @@ class SffmsWriter(writers.Writer):
 
 class SffmsTranslator(nodes.NodeVisitor):
     
-    # a Translator needs a self.body = [] to append to?
+    header = []
     body = []
+    builder = None
     
     def __init__(self, document, builder):
         nodes.NodeVisitor.__init__(self, document)
+        self.builder = builder
         self.assign_node_handlers()
 
     def astext(self):
-        return ''.join(self.body)
+        self.generate_header()
+        return ''.join(self.header + self.body)
+        
+    def generate_header(self):
+        if self.builder.config.sffms_frenchspacing:
+            self.header.append('\n\\frenchspacing\n')
     
     def visit_Text(self, node):
         self.body.append(node.astext())
