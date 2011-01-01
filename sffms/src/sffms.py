@@ -152,7 +152,9 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def depart_section(self, node): pass
     
-    def visit_document(self, node): pass
+    def visit_document(self, node):
+        self.header = []
+        self.body = []
     
     def depart_document(self,node): pass
     
