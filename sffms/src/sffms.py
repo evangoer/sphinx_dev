@@ -84,7 +84,7 @@ class SffmsBuilder(Builder):
         return 'all documents'
     
     def prepare_writing(self, docnames):
-        self.writer = SffmsWriter(self)
+        self.writer = SffmsWriter()
     
     def get_relative_uri(self, from_, to, typ=None):
         return self.get_target_uri(to, typ)
@@ -136,14 +136,10 @@ class SffmsWriter(writers.Writer):
     
     # a writer has a self.document = None, which is then set by calling write()
     document = None
-    
-    def __init__(self, builder):
-        writers.Writer.__init__(self)
-        self.builder = builder
 
     # at this point, self.document has been set by write()
     def translate(self):
-        translator = SffmsTranslator(self.document, self.builder)
+        translator = SffmsTranslator(self.document)
         self.document.walkabout(translator)
         self.output = translator.astext()
 
@@ -151,11 +147,9 @@ class SffmsWriter(writers.Writer):
 class SffmsTranslator(nodes.NodeVisitor):
     
     body = []
-    builder = None
     
-    def __init__(self, document, builder):
+    def __init__(self, document):
         nodes.NodeVisitor.__init__(self, document)
-        self.builder = builder
         self.assign_node_handlers()
 
     def astext(self):
