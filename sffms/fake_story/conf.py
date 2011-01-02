@@ -90,7 +90,14 @@ pygments_style = 'sphinx'
 
 # -- Options for sffms output --------------------------------------------------
 
-sffms_frenchspacing = 'Frenchified'
+sffms_nonsubmission = False
+sffms_notitle = False
+sffms_novel = True
+sffms_submission_type = 'baen'
+sffms_courier = True
+sffms_quote_type = None
+
+sffms_frenchspacing = True
 
 # -- Options for HTML output ---------------------------------------------------
 

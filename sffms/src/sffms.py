@@ -9,15 +9,25 @@ from sphinx.writers.text import TextWriter
 
 def setup(app):
     
-    # Should be one of: submission, novel, anon, baen, daw, wotf, nonsubmission. TODO: validate value.
-    app.add_config_value('sffms_submission_type', 'submission', '')
+    # If true, opens up the 'notitle' option.
+    app.add_config_value('sffms_nonsubmission', False, '')
+    
+    # If true, opens up the possibility of having a synopsis.
+    app.add_config_value('sffms_novel', False, '')
+    
+    # Should be one of: anon, baen, daw, wotf
+    app.add_config_value('sffms_submission_type', None, '')
 
-    # Should be one of: smart, dumb, None. TODO: validate value.
+    # Should be one of: smart, dumb, None. 
     app.add_config_value('sffms_quote_type', None, '')
 
     # Removes the title page. Only usable when submission type is 'nonsubmission'.
     app.add_config_value('sffms_notitle', False, '')
+    
+    # Overrides the default monospace font.
     app.add_config_value('sffms_courier', False, '')
+
+    # Advanced option, not yet implemented (see papersize below)
     app.add_config_value('sffms_geometry', False, '')
     
     # 'If you use geometry with the intent of fixing your paper size, you should declare the paper size explicitly.'
@@ -177,7 +187,7 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_section(self, node): pass
     
     def visit_document(self, node):
-        self.body.append('\nTHIS IS A HEADER\n\n')
+        self.body.append(self.header.astext())
     
     def depart_document(self, node): pass
     
@@ -341,11 +351,51 @@ class SffmsHeader(object):
         self.config = config
     
     def astext(self):
+        self.set_documentclass()
         self.set_frenchspacing()
+        self.header.append('\n')
         return '\n'.join(self.header)
+    
+    # i.e. \documentclass[novel,baen]{sffms}
+    # [submission] option need not be declared (probably should never declare it)
+    # [nonsubmission] option exludes [submission] (nonsubmission should probably just be a boolean). 
+    #   [nonsubmission] may use the [notitle] option
+    # [novel] begins on a fresh page.
+    #   novels may have [synopsis]
+    # assume [anon], [baen], [daw], [wotf] are all exclusive
+    # Must also handle:
+    #   quotation marks ([smart] and [dumb])
+    #   courier
+    def set_documentclass(self):
+        options = []
+        options_str = ''
+
+        if self.config.sffms_nonsubmission:
+            options.append('nonsubmission')
+            if self.config.sffms_notitle:
+                options.append('notitle') 
+        
+        if self.config.sffms_novel:
+            options.append('novel')
+
+        sub_type = self.config.sffms_submission_type
+        if sub_type and sub_type in ['anon', 'baen', 'daw', 'wotf']:
+            options.append(sub_type)
+        
+        quote_type = self.config.sffms_quote_type
+        if quote_type and quote_type in ['smart', 'dumb']:
+            options.append(quote_type)
+        
+        if self.config.sffms_courier:
+            options.append('courier')
+        
+        if len(options) > 0:
+            options_str = '[' + ','.join(options) + ']'
+           
+        self.header.append('\documentclass' + options_str + '{sffms}')
         
     def set_frenchspacing(self):
         if self.config.sffms_frenchspacing:
-            header.append('\\frenchspacing')
+            self.header.append('\\frenchspacing')
     
     
