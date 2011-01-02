@@ -222,7 +222,7 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def visit_document(self, node):
         self.body.append(self.header.astext())
-        self.body.append('\n\\begin{document}\n')
+        self.body.append('\\begin{document}\n')
     
     def depart_document(self, node):
         self.body.append('\n\\end{document}\n')
@@ -382,6 +382,10 @@ class SffmsTranslator(nodes.NodeVisitor):
     def default_skip_handler(self, node): raise nodes.SkipNode
     
 class SffmsHeader(object):
+    '''
+    A helper class that uses sffms config values to generate the required LaTeX 
+    documentclass and other header commands. 
+    '''
     
     header = []
     
@@ -389,24 +393,33 @@ class SffmsHeader(object):
         self.config = config
     
     def astext(self):
+        '''
+        The command for generating the actual header text. In our case, we call
+        this method in the translator, during visit_document() (since after inlining
+        the tree, there is only one document).
+        '''
         self.set_documentclass()
-        self.set_title()
-        self.set_runningtitle()
-        self.set_author()
-        self.set_authorname()
-        self.set_surname()
+        self.set_command('title', self.config.sffms_title, required=True)
+        self.set_command('runningtitle', self.config.sffms_runningtitle)
+        self.set_command('author', self.config.sffms_author, required=True)
+        self.set_command('authorname', self.config.sffms_authorname)
+        self.set_command('surname', self.config.sffms_surname)
         self.set_address()
         self.set_wordcount()
-        self.set_frenchspacing()
-        self.set_disposable()
+        self.set_command('frenchspacing', self.config.sffms_frenchspacing, typ=bool)
+        self.set_command('disposable', self.config.sffms_disposable, typ=bool)
         self.header.append('\n')
         return '\n'.join(self.header)
-    
-    # Handles all options [x,y,z] set for the document class. Output resembles:
-    # \documentclass[novel,baen]{sffms}
+
     def set_documentclass(self):
+        '''
+        Handles all options [x,y,z] set for the document class. Output resembles::
+
+          \documentclass[novel,baen]{sffms}
+        
+        This function enforces various restrictions on which options are allowed.
+        '''
         options = []
-        options_str = ''
 
         if self.config.sffms_nonsubmission:
             options.append('nonsubmission')
@@ -438,32 +451,30 @@ class SffmsHeader(object):
            
         self.header.append('\\documentclass' + options_str + '{sffms}')
 
-    # TODO validate for all of these that the option is a string
-    def set_title(self):
-        if self.config.sffms_title:
-            self.header.append('\\title{' + self.config.sffms_title + '}')
-        else:
-            raise ValueError("You must provide a non-empty sffms_title.")
-    
-    def set_runningtitle(self):
-        if self.config.sffms_runningtitle:
-            self.header.append('\\runningtitle{' + self.config.sffms_runningtitle + '}')
-
-    def set_author(self):
-        if self.config.sffms_author:
-            self.header.append('\\author{' + self.config.sffms_author + '}')
-        else:
-            raise ValueError("You must provide a non-empty sffms_author.")
-    
-    def set_authorname(self):
-        if self.config.sffms_authorname:
-            self.header.append('\\authorname{' + self.config.sffms_authorname + '}')
-    
-    def set_surname(self):
-        if self.config.sffms_surname:
-            self.header.append('\\surname{' + self.config.sffms_surname + '}')
+    def set_command(self, name, value, typ=str, required=False):
+        '''
+        Handles all simple header commands: string and boolean, required and optional.
+        A string option resembles::
+        
+          \\surname{'Smith'}
+        
+        A boolean option resembles::
+        
+          \\frenchspacing
+        '''
+        if value and isinstance(value, typ):
+            if isinstance(value, str):
+                self.header.append('\\' + name + '{' + value + '}')
+            elif isinstance(value, bool):
+                self.header.append('\\' + name)
+        elif required:
+            raise ValueError("You must provide a valid %s." % name)
     
     def set_address(self):
+        '''
+        Sets the address properly. The address requires some funky logic where we need to
+        add a LaTeX newline (two backslashes) after each line, *except* for the last line.
+        '''
         if not self.config.sffms_address:
             return
 
@@ -478,17 +489,12 @@ class SffmsHeader(object):
         self.header.append('\\address{' + address_str + '}')
 
     def set_wordcount(self):
+        '''
+        Sets the wordcount pro
+        '''
         wc = self.config.sffms_wordcount
         if wc == None:
             self.header.append('\\wordcount{}')
         elif isinstance(wc, int):
             self.header.append('\\wordcount{%d}' % wc )
-
-    def set_frenchspacing(self):
-        if self.config.sffms_frenchspacing:
-            self.header.append('\\frenchspacing')
-    
-    def set_disposable(self):
-        if self.config.sffms_disposable:
-            self.header.append('\\disposable')
 
