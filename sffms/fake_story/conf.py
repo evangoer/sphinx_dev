@@ -99,7 +99,9 @@ sffms_quote_type = None
 
 sffms_title = 'My Great Fake Novel'
 sffms_author = 'Evan Goer'
-
+sffms_address = '''123 Main Street
+San Jose, CA
+United States of America'''
 sffms_frenchspacing = True
 
 # -- Options for HTML output ---------------------------------------------------

@@ -44,8 +44,6 @@ def setup(app):
     # Required.
     app.add_config_value('sffms_author', None, '')
     
-    app.add_config_value('sffms_address', None, '')
-
     app.add_config_value('sffms_authorname', None, '')
     app.add_config_value('sffms_surname', None, '')
     
@@ -360,6 +358,7 @@ class SffmsHeader(object):
         self.set_documentclass()
         self.set_title()
         self.set_author()
+        self.set_address()
         self.set_frenchspacing()
         self.header.append('\n')
         return '\n'.join(self.header)
@@ -412,7 +411,19 @@ class SffmsHeader(object):
         else:
             raise ValueError("You must provide a non-empty sffms_author.")
     
+    def set_address(self):
+        if not self.config.sffms_address:
+            return
 
+        address = self.config.sffms_address.splitlines()
+        address_str = ''
+        
+        for i in range(0, len(address)):
+            if (i < len(address) - 1): 
+                address[i] += '\\\\\n'
+            address_str += address[i]
+            
+        self.header.append('\\address{' + address_str + '}')
         
     def set_frenchspacing(self):
         if self.config.sffms_frenchspacing:
