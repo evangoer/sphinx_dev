@@ -1,11 +1,10 @@
 from docutils import nodes, writers
 from docutils.io import StringOutput
+from sphinx.addnodes import start_of_file
 from sphinx.builders import Builder
 from sphinx.util.osutil import ensuredir, os_path
 from sphinx.util.console import bold, darkgreen
 from sphinx.util.nodes import inline_all_toctrees
-
-from sphinx.writers.text import TextWriter
 
 def setup(app):
     
@@ -164,6 +163,7 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def __init__(self, document, config):
         nodes.NodeVisitor.__init__(self, document)
+        self.config = config
         self.header = SffmsHeader(config)
         self.assign_node_handlers()
 
@@ -181,9 +181,44 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_paragraph(self, node):
         self.body.append('\n')
     
-    # Here is where we need to figure out \newscene, \chapter, and titles.    
-    def visit_section(self, node): pass
-    
+    # Here is where we need to figure out \newscene, \chapter, and titles.
+    # Answer is different depending on whether we are a novel or a short story,
+    # and what our parent is.
+    #
+    # If our parent is a document: 
+    # - if we are a novel, start a new chapter
+    # - if we are a short story, start a new scene
+    # If our parent is a document and is the master_doc: 
+    # - child paras below me are a synopsis [TODO later]
+    # - in any case, don't emit a new chapter or new scene
+    # Otherwise:
+    # - start a new scene
+    #
+    # We have to require a title at the top of each page for compatibility with
+    # the HTML builder. You can't just bang out some text without having a title
+    # for each file. 
+    # 
+    # How does that affect short story authoring?
+    # Note: it is perfectly okay to have a single 'index.txt' file that includes 
+    # no files, as long as you have an empty toctree element in there. 
+    def visit_section(self, node):
+        # if isinstance(node.parent, nodes.document):
+        #    pass
+        if isinstance(node.parent, nodes.document):
+            if self.config.sffms_novel:
+                self.new_chapter(node)
+            else:
+                self.body.append('\n\\newscene\n')
+        else:
+            self.body.append('\n\\newscene\n')
+
+    def new_chapter(self, node):
+        title = node.next_node()
+        if isinstance(title, nodes.title):
+            self.body.append('\n\chapter{' + title.astext() + '}\n')
+        else:
+            raise SyntaxError("This chapter does not seem to have a title. That shouldn't be possible...")
+        
     def depart_section(self, node): pass
     
     def visit_document(self, node):
@@ -327,7 +362,7 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('term', 'skip'),
             ('tgroup', 'skip'),
             ('thead', 'skip'),
-            ('title', 'pass'),
+            ('title', 'skip'),
             ('title_reference', 'skip'),
             ('topic', 'skip'),
             ('transition', 'skip'),
@@ -399,14 +434,15 @@ class SffmsHeader(object):
            
         self.header.append('\\documentclass' + options_str + '{sffms}')
 
+    # TODO validate for all of these that the title is a string
     def set_title(self):
-        if self.config.sffms_title: # TODO and title is a string!
+        if self.config.sffms_title:
             self.header.append('\\author{' + self.config.sffms_title + '}')
         else:
             raise ValueError("You must provide a non-empty sffms_title.")
 
     def set_author(self):
-        if self.config.sffms_author: # TODO and title is a string!
+        if self.config.sffms_author:
             self.header.append('\\title{' + self.config.sffms_author + '}')
         else:
             raise ValueError("You must provide a non-empty sffms_author.")

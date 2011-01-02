@@ -7,9 +7,9 @@ This is a test chapter.
 This is a paragraph with some *emphasized words*.
 It also has some **strong emphasis**, which is a little more exciting.
 
-In this paragraph, we thought, :thought:`Wouldn't it be nice to 
-have some sort of 'thought' markup?` Indeed it would, friend. 
-Indeed it would. Even better? :textsc:`Small caps text!`
+.. In this paragraph, we thought, :thought:`Wouldn't it be nice to 
+   have some sort of 'thought' markup?` Indeed it would, friend. 
+   Indeed it would. Even better? :textsc:`Small caps text!`
 
   "My name is Inigo Montoya. You killed my father. Prepare to die."
 

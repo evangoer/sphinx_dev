@@ -1,5 +1,12 @@
-Chapter Z: for Zombie!
-======================
+.. Chapter Z: for Zombie!
+   ======================
 
 We're testing document order by adding another chapter. Chapter Z 
 comes before Chapter 1, of course.
+
+*********
+NEW SCENE
+*********
+
+We've added a new scene in this chapter, but there is no section
+head above. What will the resulting doctree look like?

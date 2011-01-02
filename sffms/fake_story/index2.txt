@@ -3,18 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-*********************************
-Welcome to sffms's documentation!
-*********************************
+****************
+Test Short Story
+****************
 
-This is the documentation for hacking sffms support into Sphinx. It's also used
-as a test driver for the sffms module itself.
+This is testing a short story in a single file.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   z-chapter.txt
-   ch01.txt
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
