@@ -98,10 +98,15 @@ sffms_courier = False
 sffms_quote_type = None
 
 sffms_title = 'My Great Fake Novel'
+sffms_runningtitle = 'Test Novel'
 sffms_author = 'Evan Goer'
+sffms_authorname = 'Evan David Goer'
+sffms_surname = 'Lebowski'
 sffms_address = '''123 Main Street
 San Jose, CA
 United States of America'''
+sffms_wordcount = 85000
+sffms_disposable = True
 sffms_frenchspacing = True
 
 # -- Options for HTML output ---------------------------------------------------

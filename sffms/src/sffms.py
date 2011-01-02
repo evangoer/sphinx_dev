@@ -49,9 +49,8 @@ def setup(app):
     # In sffms, this is a free-form multi-line piece of text. Need to think how to specify it. Triple quotes?
     app.add_config_value('sffms_address', None, '')
     
-    # Set the wordcount manually to some value. Can also set to be empty, to suppress. 
-    # Implement with False? None? []? Perhaps the default is True, and the user can set it to be a number or None.
-    app.add_config_value('sffms_wordcount', None, '')
+    # Set the wordcount manually to some numeric value. Can also set to be None, to suppress completely.
+    app.add_config_value('sffms_wordcount', 'default', '')
 
     app.add_config_value('sffms_disposable', False, '')
     app.add_config_value('sffms_frenchspacing', False, '')
@@ -392,9 +391,14 @@ class SffmsHeader(object):
     def astext(self):
         self.set_documentclass()
         self.set_title()
+        self.set_runningtitle()
         self.set_author()
+        self.set_authorname()
+        self.set_surname()
         self.set_address()
+        self.set_wordcount()
         self.set_frenchspacing()
+        self.set_disposable()
         self.header.append('\n')
         return '\n'.join(self.header)
     
@@ -434,18 +438,30 @@ class SffmsHeader(object):
            
         self.header.append('\\documentclass' + options_str + '{sffms}')
 
-    # TODO validate for all of these that the title is a string
+    # TODO validate for all of these that the option is a string
     def set_title(self):
         if self.config.sffms_title:
-            self.header.append('\\author{' + self.config.sffms_title + '}')
+            self.header.append('\\title{' + self.config.sffms_title + '}')
         else:
             raise ValueError("You must provide a non-empty sffms_title.")
+    
+    def set_runningtitle(self):
+        if self.config.sffms_runningtitle:
+            self.header.append('\\runningtitle{' + self.config.sffms_runningtitle + '}')
 
     def set_author(self):
         if self.config.sffms_author:
-            self.header.append('\\title{' + self.config.sffms_author + '}')
+            self.header.append('\\author{' + self.config.sffms_author + '}')
         else:
             raise ValueError("You must provide a non-empty sffms_author.")
+    
+    def set_authorname(self):
+        if self.config.sffms_authorname:
+            self.header.append('\\authorname{' + self.config.sffms_authorname + '}')
+    
+    def set_surname(self):
+        if self.config.sffms_surname:
+            self.header.append('\\surname{' + self.config.sffms_surname + '}')
     
     def set_address(self):
         if not self.config.sffms_address:
@@ -460,9 +476,19 @@ class SffmsHeader(object):
             address_str += address[i]
             
         self.header.append('\\address{' + address_str + '}')
-        
+
+    def set_wordcount(self):
+        wc = self.config.sffms_wordcount
+        if wc == None:
+            self.header.append('\\wordcount{}')
+        elif isinstance(wc, int):
+            self.header.append('\\wordcount{%d}' % wc )
+
     def set_frenchspacing(self):
         if self.config.sffms_frenchspacing:
             self.header.append('\\frenchspacing')
     
-    
+    def set_disposable(self):
+        if self.config.sffms_disposable:
+            self.header.append('\\disposable')
+
