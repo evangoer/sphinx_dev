@@ -94,8 +94,11 @@ sffms_nonsubmission = False
 sffms_notitle = False
 sffms_novel = True
 sffms_submission_type = 'baen'
-sffms_courier = True
+sffms_courier = False
 sffms_quote_type = None
+
+sffms_title = 'My Great Fake Novel'
+sffms_author = 'Evan Goer'
 
 sffms_frenchspacing = True
 

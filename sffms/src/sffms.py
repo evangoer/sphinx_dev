@@ -43,6 +43,8 @@ def setup(app):
     
     # Required.
     app.add_config_value('sffms_author', None, '')
+    
+    app.add_config_value('sffms_address', None, '')
 
     app.add_config_value('sffms_authorname', None, '')
     app.add_config_value('sffms_surname', None, '')
@@ -188,8 +190,10 @@ class SffmsTranslator(nodes.NodeVisitor):
     
     def visit_document(self, node):
         self.body.append(self.header.astext())
+        self.body.append('\n\\begin{document}\n')
     
-    def depart_document(self, node): pass
+    def depart_document(self, node):
+        self.body.append('\n\\end{document}\n')
     
     def visit_strong(self, node):
         self.body.append('\\textbf{')
@@ -221,8 +225,10 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_line_block(self, node):
         self.body.append('\n\end{verse}\n')
     
+    # TODO: This code is broken -- it inserts '\\' in the wrong places which
+    # causes latex to fail. Fix this.
     def visit_line(self, node):
-        self.body.append('\n')
+        self.body.append('\\\\\n')
     
     def depart_line(self, node):
         pass
@@ -352,6 +358,8 @@ class SffmsHeader(object):
     
     def astext(self):
         self.set_documentclass()
+        self.set_title()
+        self.set_author()
         self.set_frenchspacing()
         self.header.append('\n')
         return '\n'.join(self.header)
@@ -390,8 +398,22 @@ class SffmsHeader(object):
         if len(options) > 0:
             options_str = '[' + ','.join(options) + ']'
            
-        self.header.append('\documentclass' + options_str + '{sffms}')
+        self.header.append('\\documentclass' + options_str + '{sffms}')
+
+    def set_title(self):
+        if self.config.sffms_title: # TODO and title is a string!
+            self.header.append('\\author{' + self.config.sffms_title + '}')
+        else:
+            raise ValueError("You must provide a non-empty sffms_title.")
+
+    def set_author(self):
+        if self.config.sffms_author: # TODO and title is a string!
+            self.header.append('\\title{' + self.config.sffms_author + '}')
+        else:
+            raise ValueError("You must provide a non-empty sffms_author.")
     
+
+        
     def set_frenchspacing(self):
         if self.config.sffms_frenchspacing:
             self.header.append('\\frenchspacing')
