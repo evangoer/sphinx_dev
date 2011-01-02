@@ -356,16 +356,8 @@ class SffmsHeader(object):
         self.header.append('\n')
         return '\n'.join(self.header)
     
-    # i.e. \documentclass[novel,baen]{sffms}
-    # [submission] option need not be declared (probably should never declare it)
-    # [nonsubmission] option exludes [submission] (nonsubmission should probably just be a boolean). 
-    #   [nonsubmission] may use the [notitle] option
-    # [novel] begins on a fresh page.
-    #   novels may have [synopsis]
-    # assume [anon], [baen], [daw], [wotf] are all exclusive
-    # Must also handle:
-    #   quotation marks ([smart] and [dumb])
-    #   courier
+    # Handles all options [x,y,z] set for the document class. Output resembles:
+    # \documentclass[novel,baen]{sffms}
     def set_documentclass(self):
         options = []
         options_str = ''
@@ -379,12 +371,18 @@ class SffmsHeader(object):
             options.append('novel')
 
         sub_type = self.config.sffms_submission_type
-        if sub_type and sub_type in ['anon', 'baen', 'daw', 'wotf']:
-            options.append(sub_type)
-        
+        if sub_type: 
+            if sub_type in ['anon', 'baen', 'daw', 'wotf']:
+                options.append(sub_type)
+            else:
+                raise ValueError("If present, sffms_submission_type must be set to 'anon', 'baen', 'daw', or 'wotf'.")
+                
         quote_type = self.config.sffms_quote_type
-        if quote_type and quote_type in ['smart', 'dumb']:
-            options.append(quote_type)
+        if quote_type:
+            if quote_type in ['smart', 'dumb']:
+                options.append(quote_type)
+            else:
+                raise ValueError("If present, sffms_quote_type must be set to 'smart' or 'dumb'.")
         
         if self.config.sffms_courier:
             options.append('courier')
@@ -393,7 +391,7 @@ class SffmsHeader(object):
             options_str = '[' + ','.join(options) + ']'
            
         self.header.append('\documentclass' + options_str + '{sffms}')
-        
+    
     def set_frenchspacing(self):
         if self.config.sffms_frenchspacing:
             self.header.append('\\frenchspacing')
