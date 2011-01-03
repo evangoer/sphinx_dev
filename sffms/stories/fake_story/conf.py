@@ -92,7 +92,7 @@ pygments_style = 'sphinx'
 
 sffms_nonsubmission = False
 sffms_notitle = False
-sffms_novel = True
+sffms_novel = True 
 sffms_submission_type = 'baen'
 sffms_courier = False
 sffms_quote_type = None

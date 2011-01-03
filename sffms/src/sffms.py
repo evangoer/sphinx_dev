@@ -206,10 +206,13 @@ class SffmsTranslator(nodes.NodeVisitor):
         # if isinstance(node.parent, nodes.document):
         #    pass
         if isinstance(node.parent, nodes.document):
-            if self.config.sffms_novel:
-                self.new_chapter(node)
+            if 'docname' in node.parent:
+                pass
             else:
-                self.body.append('\n\\newscene\n')
+                if self.config.sffms_novel:
+                    self.new_chapter(node)
+                else:
+                    self.body.append('\n\\newscene\n')
         else:
             self.body.append('\n\\newscene\n')
 
