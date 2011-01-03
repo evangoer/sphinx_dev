@@ -55,6 +55,8 @@ def setup(app):
     app.add_config_value('sffms_disposable', False, '')
     app.add_config_value('sffms_frenchspacing', False, '')
 
+    # New config values not directly in sffms
+    app.add_config_value('sffms_doublespace_verse', False, '')
 
     app.add_generic_role('thought', thought)
     app.add_generic_role('textsc', textsc)
@@ -252,18 +254,32 @@ class SffmsTranslator(nodes.NodeVisitor):
         self.body.append('}')
         
     def visit_line_block(self, node):
+        if not self.config.sffms_doublespace_verse:
+            self.body.append('\n\\begin{singlespace}')
         self.body.append('\n\\begin{verse}')
         
     def depart_line_block(self, node):
         self.body.append('\n\end{verse}\n')
-    
-    # TODO: This code is broken -- it inserts '\\' in the wrong places which
-    # causes latex to fail. Fix this.
+        if not self.config.sffms_doublespace_verse:
+            self.body.append('\\end{singlespace}\n')
+
     def visit_line(self, node):
-        self.body.append('\\\\\n')
-    
+        self.body.append('\n')
+        
     def depart_line(self, node):
-        pass
+        '''
+        Sffms requires us to insert two backslashes after each line of verse, *except*
+        for blank lines and lines preceding blank lines.
+        '''
+        next_line = node.next_node(condition=nodes.line, siblings=1)
+        if self.line_is_blank(node) and self.line_is_blank(next_line):
+            self.body.append('\\\\')
+    
+    def line_is_blank(self, node):
+        if not isinstance(node, nodes.line):
+            return False
+        else:
+            return True if node.astext().strip() != '' else False
         
     def visit_block_quote(self, node):
         self.body.append('\n\\begin{quotation}')

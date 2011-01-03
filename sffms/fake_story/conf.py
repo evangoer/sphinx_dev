@@ -108,6 +108,7 @@ United States of America'''
 sffms_wordcount = 85000
 sffms_disposable = True
 sffms_frenchspacing = True
+sffms_doublespace_verse = False
 
 # -- Options for HTML output ---------------------------------------------------
 
