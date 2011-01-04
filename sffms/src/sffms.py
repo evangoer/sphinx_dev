@@ -63,15 +63,6 @@ def setup(app):
     
     app.add_builder(SffmsBuilder)
 
-# custom inline styles from sffms: thought and textsc
-#
-# TODO: Danger Will Robinson! Adding these custom roles means
-# we are screwing up all the other builds. How do we patch up
-# the other builders?
-class thought(nodes.Inline, nodes.TextElement): pass
-
-class textsc(nodes.Inline, nodes.TextElement): pass
-
 class SffmsBuilder(Builder):
     """
     Builder for sffms-style LaTeX. Totally different output
@@ -244,16 +235,13 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_emphasis(self, node):
         self.body.append('}')
 
-    def visit_thought(self, node):
-        self.body.append('\\thought{')
-    
-    def depart_thought(self, node):
-        self.body.append('}')
-    
-    def visit_textsc(self, node):
-        self.body.append('\\textsc{')
-    
-    def depart_textsc(self, node):
+    def visit_literal(self, node):
+        if 'kbd' in node['classes']:
+            self.body.append('\\textsc{')
+        else:
+            self.body.append('\\thought{')
+            
+    def depart_literal(self, node):
         self.body.append('}')
         
     def visit_line_block(self, node):
@@ -346,7 +334,6 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('label', 'skip'),
             ('legend', 'skip'),
             ('list_item', 'skip'),
-            ('literal', 'skip'),
             ('literal_block', 'skip'),
             ('literal_emphasis', 'skip'),
             ('meta', 'skip'),
