@@ -57,9 +57,6 @@ def setup(app):
 
     # New config values not directly in sffms
     app.add_config_value('sffms_doublespace_verse', False, '')
-
-    app.add_generic_role('thought', thought)
-    app.add_generic_role('textsc', textsc)
     
     app.add_builder(SffmsBuilder)
 
