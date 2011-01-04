@@ -465,6 +465,7 @@ class SffmsHeader(object):
         if self.config.sffms_courier:
             options.append('courier')
         
+        options_str = ''
         if len(options) > 0:
             options_str = '[' + ','.join(options) + ']'
            
@@ -509,7 +510,8 @@ class SffmsHeader(object):
 
     def set_wordcount(self):
         '''
-        Sets the wordcount pro
+        Sets the wordcount manually to a value (if set to a number) or turns off 
+        the wordcount entirely (if set to None).
         '''
         wc = self.config.sffms_wordcount
         if wc == None:
