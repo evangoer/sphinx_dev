@@ -1,3 +1,4 @@
+import re
 from docutils import nodes, writers
 from docutils.io import StringOutput
 from sphinx.addnodes import start_of_file
@@ -148,7 +149,8 @@ class SffmsWriter(writers.Writer):
 
 class SffmsTranslator(nodes.NodeVisitor):
     
-    body = []
+    body = []    
+    reserved_latex_chars = '[{}\\\^&\%\$#]'
     
     def __init__(self, document, config):
         nodes.NodeVisitor.__init__(self, document)
@@ -160,7 +162,11 @@ class SffmsTranslator(nodes.NodeVisitor):
         return ''.join(self.body)
     
     def visit_Text(self, node):
-        self.body.append(node.astext())
+        text = re.sub(self.reserved_latex_chars, self.escaped_chars, node.astext())
+        self.body.append(text)
+    
+    def escaped_chars(self, match):
+        return '\\' + match.group(0)
     
     def depart_Text(self, node): pass
         
@@ -178,25 +184,36 @@ class SffmsTranslator(nodes.NodeVisitor):
     # - if we are a novel, start a new chapter
     # - if we are a short story, start a new scene
     # If our parent is a document and is the master_doc: 
-    # - child paras below me are a synopsis [TODO later]
-    # - in any case, don't emit a new chapter or new scene
+    # - child paras below me are a synopsis?
+    #   - no, probably too much magic there. Declare a synopsis explicitly with a custom directive.
+    # - in any case, don't emit a new chapter or new scene?
+    #   - no, leave this alone. Need to support the single-file use case
+    # - Might want to grab thestory title from this section, though
+    #   - user probably would be surprised to have the title ignored
+    #   - probably want: take the title from the text itself
+    #   - fall back to conf.py
+    #   - if title specified nowhere, throw an error
+    # 
     # Otherwise:
     # - start a new scene
     #
     # We have to require a title at the top of each page for compatibility with
     # the HTML builder. You can't just bang out some text without having a title
-    # for each file. 
+    # for each file. You'll still get some output if you do this, but the behavior
+    # is undefined.
     # 
     # How does that affect short story authoring?
     # Note: it is perfectly okay to have a single 'index.txt' file that includes 
-    # no files, as long as you have an empty toctree element in there. 
+    # no files and has no toctree!
+    #
+    # TODO decide what the behavior is and untangle this silly nesting
     def visit_section(self, node):
         # if isinstance(node.parent, nodes.document):
         #    pass
         if isinstance(node.parent, nodes.document):
-            if 'docname' in node.parent:
+            if 'docname' in node.parent:  # we are in the master_doc
                 pass
-            else:
+            else:                         # we are just in a document 
                 if self.config.sffms_novel:
                     self.new_chapter(node)
                 else:
