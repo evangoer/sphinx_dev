@@ -10,3 +10,19 @@ NEW SCENE
 
 We've added a new scene in this chapter, but there is no section
 head above. What will the resulting doctree look like?
+
+Here is a left brace: {
+
+Here is a right brace: }
+
+Here is a backslash: \\
+
+Here is a caret: ^
+
+Here is an ampersand: &
+
+Here is a percent sign: %
+
+Here is a dollar sign: $
+
+Here is an octothorpe: #
