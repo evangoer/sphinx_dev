@@ -66,7 +66,6 @@ class SffmsBuilder(Builder):
     Builder for sffms-style LaTeX. Totally different output
     from the default Sphinx LaTeX builder.
     """
-    
     name = "sffms"
     format = "latex"
     out_suffix = ".tex"
@@ -402,22 +401,20 @@ class SffmsTranslator(nodes.NodeVisitor):
     def default_skip_handler(self, node): raise nodes.SkipNode
     
 class SffmsHeader(object):
-    '''
+    """
     A helper class that uses sffms config values to generate the required LaTeX 
-    documentclass and other header commands. 
-    '''
-    
+    documentclass and other LaTeX header commands. 
+    """
     header = []
     
     def __init__(self, config):
         self.config = config
     
     def astext(self):
-        '''
-        The command for generating the actual header text. In our case, we call
-        this method in the translator, during visit_document() (since after inlining
-        the tree, there is only one document).
-        '''
+        """
+        The command for generating the actual header text. Called in the translator
+        during visit_document() (since after inlining the tree, there is only one document).
+        """
         self.set_documentclass()
         self.set_command('title', self.config.sffms_title, required=True)
         self.set_command('runningtitle', self.config.sffms_runningtitle)
@@ -432,13 +429,13 @@ class SffmsHeader(object):
         return '\n'.join(self.header)
 
     def set_documentclass(self):
-        '''
+        r"""
         Handles all options [x,y,z] set for the document class. Output resembles::
 
           \documentclass[novel,baen]{sffms}
         
         This function enforces various restrictions on which options are allowed.
-        '''
+        """
         options = []
 
         if self.config.sffms_nonsubmission:
@@ -473,16 +470,16 @@ class SffmsHeader(object):
         self.header.append('\\documentclass' + options_str + '{sffms}')
 
     def set_command(self, name, value, typ=str, required=False):
-        '''
+        r"""
         Handles all simple header commands: string and boolean, required and optional.
         A string option resembles::
         
-          \\surname{'Smith'}
+          \surname{Smith}
         
         A boolean option resembles::
         
-          \\frenchspacing
-        '''
+          \frenchspacing
+        """
         if value and isinstance(value, typ):
             if isinstance(value, str):
                 self.header.append('\\' + name + '{' + value + '}')
@@ -492,10 +489,10 @@ class SffmsHeader(object):
             raise ValueError("You must provide a valid %s." % name)
     
     def set_address(self):
-        '''
+        """
         Sets the address properly. The address requires some funky logic where we need to
         add a LaTeX newline (two backslashes) after each line, *except* for the last line.
-        '''
+        """
         if not self.config.sffms_address:
             return
 
@@ -510,10 +507,10 @@ class SffmsHeader(object):
         self.header.append('\\address{' + address_str + '}')
 
     def set_wordcount(self):
-        '''
+        """
         Sets the wordcount manually to a value (if set to a number) or turns off 
         the wordcount entirely (if set to None).
-        '''
+        """
         wc = self.config.sffms_wordcount
         if wc == None:
             self.header.append('\\wordcount{}')
