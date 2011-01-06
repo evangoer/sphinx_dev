@@ -36,7 +36,7 @@ def setup(app):
     app.add_config_value('sffms_papersize', None, '')
 
     # Required.
-    app.add_config_value('sffms_title', None, '')
+    app.add_config_value('sffms_title', 'How I Forgot To Set My sffms_title In My conf.py: A Memoir', '')
     
     # Optional. sffms uses the title in place of the running title if it is absent.
     app.add_config_value('sffms_runningtitle', None, '')
@@ -175,55 +175,59 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_paragraph(self, node):
         self.body.append('\n')
     
-    # Here is where we need to figure out \newscene, \chapter, and titles.
-    # Answer is different depending on whether we are a novel or a short story,
-    # and what our parent is.
-    #
-    # If our parent is a document: 
-    # - if we are a novel, start a new chapter
-    # - if we are a short story, start a new scene
-    # If our parent is a document and is the master_doc: 
-    # - child paras below me are a synopsis?
-    #   - no, probably too much magic there. Declare a synopsis explicitly with a custom directive.
-    # - in any case, don't emit a new chapter or new scene?
-    #   - no, leave this alone. Need to support the single-file use case
-    # - Might want to grab thestory title from this section, though
-    #   - user probably would be surprised to have the title ignored
-    #   - probably want: take the title from the text itself
-    #   - fall back to conf.py
-    #   - if title specified nowhere, throw an error
-    # 
-    # Otherwise:
-    # - start a new scene
-    #
-    # We have to require a title at the top of each page for compatibility with
-    # the HTML builder. You can't just bang out some text without having a title
-    # for each file. You'll still get some output if you do this, but the behavior
-    # is undefined.
-    # 
-    # How does that affect short story authoring?
-    # Note: it is perfectly okay to have a single 'index.txt' file that includes 
-    # no files and has no toctree!
-    #
-    # TODO decide what the behavior is and untangle this silly nesting
     def visit_section(self, node):
-        # if isinstance(node.parent, nodes.document):
-        #    pass
-        if isinstance(node.parent, nodes.document):
-            if 'docname' in node.parent:  # we are in the master_doc
-                pass
-            else:                         # we are just in a document 
-                if self.config.sffms_novel:
-                    self.new_chapter(node)
-                else:
-                    self.body.append('\n\\newscene\n')
+        '''
+        Some funky logic to determine whether to emit a new chapter, a new scene, 
+        or nothing. 
+        
+        This logic is even more confusing because even though we've inlined the 
+        document, Sphinx does not adjust node.parent. This means whenever we refer to
+        node.parent, we have to pretend that the doctree has not yet been inlined. 
+                
+        For now, this code makes no attempt to get the top-level section's title and
+        use that as the document title. We're following the lead of all the default 
+        Sphinx Builders and requiring the user to provide the document title as a 
+        config value. That means duplication of information -- oh well. 
+        '''
+        
+        # We do not actually want to emit a new scene or chapter for
+        # the top-level section.
+        if self.is_toplevel_section(node):
+            pass
+        elif self.is_new_chapter(node):
+            self.body.append(self.new_chapter(node))
         else:
             self.body.append('\n\\newscene\n')
+    
+    def is_toplevel_section(self, node):
+        ''' 
+        If you are a section, and parent is a document with a 'docname' attribute, you are 
+        the top-level section (unless the source markup is very malformed).
+        '''
+        if isinstance(node.parent, nodes.document) and 'docname' in node.parent:
+            return True
+        else:
+            return False
+        
+    def is_new_chapter(self, node):
+        '''
+        Determines whether a section is a new chapter. Chapters are only relevant for novels. 
+        The logic is slightly different depending on whether the novel is single-file or multi-file.
+        '''
+        if self.config.sffms_novel:
+            # an multi-file novel with a toctree directive
+            if isinstance(node.parent, nodes.document):
+                return True
+            # a single-file novel, with chapters correctly nested under the top-level section.
+            elif isinstance(node.parent.parent, nodes.document) and 'docname' in node.parent.parent:
+                return True
+        else:
+            return False
 
     def new_chapter(self, node):
         title = node.next_node()
         if isinstance(title, nodes.title):
-            self.body.append('\n\chapter{' + title.astext() + '}\n')
+            return '\n\chapter{' + title.astext() + '}\n'
         else:
             raise SyntaxError("This chapter does not seem to have a title. That shouldn't be possible...")
         
@@ -486,7 +490,7 @@ class SffmsHeader(object):
             elif isinstance(value, bool):
                 self.header.append('\\' + name)
         elif required:
-            raise ValueError("You must provide a valid %s." % name)
+            raise ValueError("You must provide a valid %s in your conf.py." % name)
     
     def set_address(self):
         """
