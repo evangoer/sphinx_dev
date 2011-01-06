@@ -1,0 +1,13 @@
+******************
+A PRINCESS OF MARS
+******************
+
+To My Son Jack
+
+.. toctree::
+   :maxdepth: 2
+
+   foreword.txt
+   on_the_arizona_hills.txt
+   the_escape_of_the_dead.txt
+   my_advent_on_mars.txt
