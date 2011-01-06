@@ -1,4 +1,5 @@
-import re
+import re, codecs
+from os import path
 from docutils import nodes, writers
 from docutils.io import StringOutput
 from sphinx.addnodes import start_of_file
@@ -108,6 +109,16 @@ class SffmsBuilder(Builder):
         self.info()
         self.info(bold('writing... '), nonl=True)
         self.write_doc(self.config.master_doc, doctree)
+        outfile = path.join(self.outdir, 'sffms', os_path(self.config.master_doc) + self.out_suffix)
+        ensuredir(path.dirname(outfile))
+        try:
+            f = codecs.open(outfile, 'w', 'utf-8')
+            try:
+                f.write(self.writer.output)
+            finally:
+                f.close()
+        except (IOError, OSError), err:
+            self.warn("error writing file %s: %s" % (outfile, err))
         self.info('done')
         
     def assemble_doctree(self):
@@ -115,17 +126,13 @@ class SffmsBuilder(Builder):
         tree = self.env.get_doctree(master)
         tree = inline_all_toctrees(self, set() , master, tree, darkgreen)
         tree['docname'] = master
-        print tree.pformat()
         
         # skip code that checks references, etc.
         return tree
     
     def write_doc(self, docname, doctree):
-        # print doctree.pformat()
         destination = StringOutput(encoding='utf-8')
-        output = self.writer.write(doctree, destination)
-        print output
-    
+        output = self.writer.write(doctree, destination)    
 
 class SffmsWriter(writers.Writer):
     
