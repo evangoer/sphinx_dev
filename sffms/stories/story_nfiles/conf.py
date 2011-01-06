@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# single_file_short_story documentation build configuration file, created by
+# multi_file_short_story documentation build configuration file, created by
 # sphinx-quickstart on Sun Jan  2 21:03:56 2011.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,7 +40,7 @@ source_suffix = '.txt'
 master_doc = 'index'
 
 # General information about the project.
-project = u'single_file_short_story'
+project = u'multi_file_short_story'
 copyright = u'2011, Arthur Conan Doyle'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -172,7 +172,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'single_file_short_storydoc'
+htmlhelp_basename = 'multi_file_short_storydoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -186,7 +186,7 @@ htmlhelp_basename = 'single_file_short_storydoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('foo', 'single_file_short_story.tex', u'single\\_file\\_short\\_story Documentation',
+  ('foo', 'multi_file_short_story.tex', u'single\\_file\\_short\\_story Documentation',
    u'Arthur Conan Doyle', 'manual'),
 ]
 
@@ -219,7 +219,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('foo', 'single_file_short_story', u'single_file_short_story Documentation',
+    ('foo', 'multi_file_short_story', u'multi_file_short_story Documentation',
      [u'Arthur Conan Doyle'], 1)
 ]
 
@@ -227,7 +227,7 @@ man_pages = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'single_file_short_story'
+epub_title = u'multi_file_short_story'
 epub_author = u'Arthur Conan Doyle'
 epub_publisher = u'Arthur Conan Doyle'
 epub_copyright = u'2011, Arthur Conan Doyle'
