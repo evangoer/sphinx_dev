@@ -1131,21 +1131,3 @@ cleverness of women, but I have not heard him do it of late. And
 when he speaks of Irene Adler, or when he refers to her
 photograph, it is always under the honourable title of the woman.
 
-
-
-Here is a left brace: {
-
-Here is a right brace: }
-
-Here is a backslash: \\
-
-Here is a caret: ^
-
-Here is an ampersand: &
-
-Here is a percent sign: %
-
-Here is a dollar sign: $
-
-Here is an octothorpe: #
-
