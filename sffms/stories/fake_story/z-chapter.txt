@@ -11,7 +11,7 @@ There is also a suppress_numbering directive.
 NEW SCENE
 ---------
 
-We've added a new scene in this chapter.
+We've added a new scene in this chapter. It contains... LaTeX reserved characters!
 
 Here is a left brace: {
 
@@ -19,7 +19,11 @@ Here is a right brace: }
 
 Here is a backslash: \\
 
-Here is a caret: ^
+Here is a caret: ^a -- will the a be turned into an accented a? Let's hope not!
+
+Here is a tilde: ~n -- will the n be turned into an accented n? Let's hope not!
+
+Here is an underscore: _
 
 Here is an ampersand: &
 

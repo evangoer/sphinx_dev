@@ -162,7 +162,7 @@ class SffmsWriter(writers.Writer):
 class SffmsTranslator(nodes.NodeVisitor):
     
     body = []
-    reserved_latex_chars = '[{}\\\^&\%\$#]'
+    reserved_latex_chars = '[{}\\\^&\%\$#~_]'
     
     def __init__(self, document, config):
         nodes.NodeVisitor.__init__(self, document)
@@ -178,7 +178,14 @@ class SffmsTranslator(nodes.NodeVisitor):
         self.body.append(text)
     
     def escaped_chars(self, match):
-        return '\\' + match.group(0)
+        if match.group(0) == '~':
+            return '$\\sim$'
+        elif match.group(0) == '\\':
+            return '$\\backslash$'
+        elif match.group(0) == '^':
+            return '\\^{}'
+        else:
+            return '\\' + match.group(0)
     
     def depart_Text(self, node): pass
         
