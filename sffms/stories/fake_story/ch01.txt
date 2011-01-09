@@ -15,6 +15,16 @@ Indeed it would. Even better? :kbd:`Small caps text!`
 
   "Stop saying that!"
 
+Scene XII
+=========
+
+.. suppress_numbering::
+
+There is a suppress_numbering directive in this scene. It should NOT 
+actually have any effect on the parent chapter because it is in the
+child scene. suppress_numbering is designed to be a direct child of
+the chapter it's supposed to act upon. If it goes any deeper -- poof!
+
 Here is another paragraph. And now for some verse:
 
 | OH POINTY BIRDS

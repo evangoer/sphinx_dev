@@ -1,15 +1,17 @@
-.. Chapter Z: for Zombie!
-   ======================
+Preface: Z is for Zombie!
+=========================
+
+.. suppress_numbering::
 
 We're testing document order by adding another chapter. Chapter Z 
 comes before Chapter 1, of course.
 
-*********
-NEW SCENE
-*********
+There is also a suppress_numbering directive.
 
-We've added a new scene in this chapter, but there is no section
-head above. What will the resulting doctree look like?
+NEW SCENE
+---------
+
+We've added a new scene in this chapter.
 
 Here is a left brace: {
 

@@ -7,6 +7,7 @@ from sphinx.builders import Builder
 from sphinx.util.osutil import ensuredir, os_path
 from sphinx.util.console import bold, darkgreen
 from sphinx.util.nodes import inline_all_toctrees
+from sphinx.util.compat import Directive
 
 def setup(app):
     
@@ -60,7 +61,15 @@ def setup(app):
     # New config values not directly in sffms
     app.add_config_value('sffms_doublespace_verse', False, '')
     
+    # Suppress specific chapter numbering for specific chapters. Make sure that we don't make 
+    # the default Sphinx builders fall over when they encounter an unknown node.
+    app.add_node(suppress_numbering, html=(skip_me, None), latex=(skip_me, None),
+        text=(skip_me, None), man=(skip_me, None))
+    app.add_directive('suppress_numbering', SffmsSuppressNumberingDirective)
+    
     app.add_builder(SffmsBuilder)
+
+def skip_me(self, node): raise nodes.SkipNode
 
 class SffmsBuilder(Builder):
     """
@@ -136,17 +145,14 @@ class SffmsBuilder(Builder):
 
 class SffmsWriter(writers.Writer):
     
-    # a writer has a self.output = None, which is then set by calling translate()
-    output = None
-    
-    # a writer has a self.document = None, which is then set by calling write()
+    output = None  
     document = None
 
     def __init__(self, config):
         writers.Writer.__init__(self)
         self.config = config
 
-    # at this point, self.document has been set by write()
+    # at this point, the framework has set self.document by calling Writer.write()
     def translate(self):
         translator = SffmsTranslator(self.document, self.config)
         self.document.walkabout(translator)
@@ -155,7 +161,7 @@ class SffmsWriter(writers.Writer):
 
 class SffmsTranslator(nodes.NodeVisitor):
     
-    body = []    
+    body = []
     reserved_latex_chars = '[{}\\\^&\%\$#]'
     
     def __init__(self, document, config):
@@ -222,22 +228,28 @@ class SffmsTranslator(nodes.NodeVisitor):
         The logic is slightly different depending on whether the novel is single-file or multi-file.
         '''
         if self.config.sffms_novel:
-            # an multi-file novel with a toctree directive
+            # a multi-file novel with a toctree directive
             if isinstance(node.parent, nodes.document):
                 return True
-            # a single-file novel, with chapters correctly nested under the top-level section.
+            # a single-file novel with chapters correctly nested under the top-level section
             elif isinstance(node.parent.parent, nodes.document) and 'docname' in node.parent.parent:
                 return True
         else:
             return False
 
     def new_chapter(self, node):
+        sn = node.next_node(condition=suppress_numbering)
+        if isinstance(sn, suppress_numbering) and sn.parent is node:
+            sn = '*'
+        else:
+            sn = ''
+            
         title = node.next_node()
         if isinstance(title, nodes.title):
-            return '\n\chapter{' + title.astext() + '}\n'
+            return '\n\chapter' + sn + '{' + title.astext() + '}\n'
         else:
             raise SyntaxError("This chapter does not seem to have a title. That shouldn't be possible...")
-        
+    
     def depart_section(self, node): pass
     
     def visit_document(self, node):
@@ -383,6 +395,7 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('substitution_reference', 'skip'),
             ('subtitle', 'skip'),
             ('superscript', 'skip'),
+            ('suppress_numbering', 'pass'),
             ('system_message', 'skip'),
             ('table', 'skip'),
             ('tabular_col_spec', 'skip'),
@@ -528,3 +541,10 @@ class SffmsHeader(object):
         elif isinstance(wc, int):
             self.header.append('\\wordcount{%d}' % wc )
 
+class suppress_numbering(nodes.General, nodes.Element):
+    pass
+
+class SffmsSuppressNumberingDirective(Directive):
+    
+    def run(self):
+        return [suppress_numbering('')]
