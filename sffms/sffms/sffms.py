@@ -40,6 +40,9 @@ def setup(app):
     # Changes the scene separator from "#" to something else.
     app.add_config_value('sffms_sceneseparator', None, '')
 
+    # Changes the end-of-story symbol from "# # # # #" to something else. 
+    app.add_config_value('sffms_thirty', None, '')
+
     # Required.
     app.add_config_value('sffms_title', 'How I Forgot To Set My sffms_title In My conf.py: A Memoir', '')
     
@@ -460,6 +463,7 @@ class SffmsHeader(object):
         self.set_command('frenchspacing', self.config.sffms_frenchspacing, typ=bool)
         self.set_command('disposable', self.config.sffms_disposable, typ=bool)
         self.set_command('sceneseparator', self.config.sffms_sceneseparator)
+        self.set_command('thirty', self.config.sffms_thirty)
         self.header.append('\n')
         return '\n'.join(self.header)
 

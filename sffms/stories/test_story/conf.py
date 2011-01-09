@@ -108,6 +108,7 @@ sffms_disposable = True
 sffms_frenchspacing = True
 sffms_doublespace_verse = False
 sffms_sceneseparator = '$\star\star\star$'
+sffms_thirty = 'THE END'
 
 # -- Options for HTML output ---------------------------------------------------
 
