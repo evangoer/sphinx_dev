@@ -162,7 +162,6 @@ class SffmsWriter(writers.Writer):
 class SffmsTranslator(nodes.NodeVisitor):
     
     body = []
-    reserved_latex_chars = '[{}\\\^&\%\$#~_]'
     
     def __init__(self, document, config):
         nodes.NodeVisitor.__init__(self, document)
@@ -174,7 +173,8 @@ class SffmsTranslator(nodes.NodeVisitor):
         return ''.join(self.body)
     
     def visit_Text(self, node):
-        text = re.sub(self.reserved_latex_chars, self.escaped_chars, node.astext())
+        reserved_latex_chars = '[{}\\\^&\%\$#~_]'
+        text = re.sub(reserved_latex_chars, self.escaped_chars, node.astext())
         self.body.append(text)
     
     def escaped_chars(self, match):
