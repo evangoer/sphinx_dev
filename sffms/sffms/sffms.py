@@ -76,9 +76,17 @@ def setup(app):
         text=(skip_me, None), man=(skip_me, None))
     app.add_directive('suppress_numbering', SffmsSuppressNumberingDirective)
     
+    # Allow the user to add a synopsis section anywhere in the document. Pass it through to
+    # the default Sphinx builders and hope it looks okay.
+    app.add_node(synopsis, html=(pass_me, pass_me), latex=(pass_me, pass_me),
+        text=(pass_me, pass_me), man=(pass_me, pass_me))
+    app.add_directive('synopsis', SffmsSynopsisDirective)
+    
     app.add_builder(SffmsBuilder)
 
 def skip_me(self, node): raise nodes.SkipNode
+
+def pass_me(self, node): pass
 
 class SffmsBuilder(Builder):
     """
@@ -330,6 +338,12 @@ class SffmsTranslator(nodes.NodeVisitor):
     def depart_block_quote(self, node):
         self.body.append('\end{quotation}\n')
     
+    def visit_synopsis(self, node):
+        self.body.append('\n\\begin{synopsis}')
+        
+    def depart_synopsis(self, node):
+        self.body.append('\\end{synopsis}\n')
+        
     def assign_node_handlers(self):
         nodenames = [
             ('abbreviation', 'skip'),
@@ -560,10 +574,24 @@ class SffmsHeader(object):
         elif isinstance(wc, int):
             self.header.append('\\wordcount{%d}' % wc )
 
-class suppress_numbering(nodes.General, nodes.Element):
-    pass
+class suppress_numbering(nodes.General, nodes.Element): pass
+    
+class synopsis(nodes.Structural, nodes.Element): pass
 
 class SffmsSuppressNumberingDirective(Directive):
     
     def run(self):
         return [suppress_numbering('')]
+
+class SffmsSynopsisDirective(Directive):
+    
+    node_class = synopsis
+    has_content = True
+    
+    def run(self):
+        self.assert_has_content()
+        text = '\n'.join(self.content)
+        synopsis_node = self.node_class(rawsource=text)
+        # Parse the directive contents.
+        self.state.nested_parse(self.content, self.content_offset, synopsis_node)
+        return [synopsis_node]

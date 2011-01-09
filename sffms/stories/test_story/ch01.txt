@@ -15,6 +15,17 @@ Indeed it would. Even better? :kbd:`Small caps text!`
 
   "Stop saying that!"
 
+.. synopsis:: 
+
+   We've decided to put a synopsis here in the middle of the story
+   because having a synopsis here is *rad*.
+
+   First, our hero has a problem with some mobsters.
+
+   Then he blows up all the mobsters. BOOM! KABLOOIE! 
+
+This is more text in the first chapter, yes indeedy!
+
 Scene XII
 =========
 
