@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.append(os.path.abspath('../../src'))
+# sys.path.append(os.path.abspath('../../src'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -26,8 +26,6 @@ import sys, os
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sffms.sffms']
-
-todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -109,6 +107,7 @@ sffms_wordcount = 85000
 sffms_disposable = True
 sffms_frenchspacing = True
 sffms_doublespace_verse = False
+sffms_sceneseparator = '$\star\star\star$'
 
 # -- Options for HTML output ---------------------------------------------------
 

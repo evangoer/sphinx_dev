@@ -36,6 +36,9 @@ def setup(app):
     # Figure out what DeMarco is saying here. Can I declare this if geometry = False? Is it required if geometry = True? 
     # Possible values are 'a4paper', 'letterpaper', and others as defined in the geometry package.
     app.add_config_value('sffms_papersize', None, '')
+    
+    # Changes the scene separator from "#" to something else.
+    app.add_config_value('sffms_sceneseparator', None, '')
 
     # Required.
     app.add_config_value('sffms_title', 'How I Forgot To Set My sffms_title In My conf.py: A Memoir', '')
@@ -456,6 +459,7 @@ class SffmsHeader(object):
         self.set_wordcount()
         self.set_command('frenchspacing', self.config.sffms_frenchspacing, typ=bool)
         self.set_command('disposable', self.config.sffms_disposable, typ=bool)
+        self.set_command('sceneseparator', self.config.sffms_sceneseparator)
         self.header.append('\n')
         return '\n'.join(self.header)
 
