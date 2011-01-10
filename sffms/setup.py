@@ -1,7 +1,5 @@
 from distutils.core import setup
 
-requires = ['Sphinx >= 1.0']
-
 setup(
     name = 'sffms',
     packages = ['sffms'],
@@ -10,6 +8,7 @@ setup(
     author = 'Evan Goer',
     author_email = 'evan@goer.org',
     url = 'http://github.com/evangoer/sphinx-dev/sffms',
+    install_requires=['Sphinx>=1.0']
     classifiers = [
         'Development Status :: 4 - Beta',
         'Environment :: Console',
