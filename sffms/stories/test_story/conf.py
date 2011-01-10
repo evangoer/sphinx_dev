@@ -110,6 +110,7 @@ sffms_doublespace_verse = False
 sffms_sceneseparator = '$\star\star\star$'
 sffms_thirty = 'THE END'
 #sffms_msheading = '\pageofpages'
+sffms_papersize = 'a4paper'
 
 # -- Options for HTML output ---------------------------------------------------
 

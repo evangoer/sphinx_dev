@@ -1,9 +1,11 @@
 from distutils.core import setup
 
+requires = ['Sphinx >= 1.0']
+
 setup(
     name = 'sffms',
     packages = ['sffms'],
-    version = '0.9.0',
+    version = '0.9.1',
     description = 'Sffms-style LaTeX output for Sphinx',
     author = 'Evan Goer',
     author_email = 'evan@goer.org',

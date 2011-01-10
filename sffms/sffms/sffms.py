@@ -29,12 +29,7 @@ def setup(app):
     # Overrides the default monospace font.
     app.add_config_value('sffms_courier', False, '')
 
-    # Advanced option, not yet implemented (see papersize below)
-    app.add_config_value('sffms_geometry', False, '')
-    
-    # 'If you use geometry with the intent of fixing your paper size, you should declare the paper size explicitly.'
-    # Figure out what DeMarco is saying here. Can I declare this if geometry = False? Is it required if geometry = True? 
-    # Possible values are 'a4paper', 'letterpaper', and others as defined in the geometry package.
+    # Possible values are 'a4paper' and 'letterpaper'.
     app.add_config_value('sffms_papersize', None, '')
     
     # Changes the scene separator from "#" to something else.
@@ -532,6 +527,14 @@ class SffmsHeader(object):
         
         if self.config.sffms_courier:
             options.append('courier')
+        
+        # despite what the sffms LaTeX docs imply, I don't think sffms supports any other paper sizes.
+        papersize = self.config.sffms_papersize
+        if papersize and papersize in ['a4paper', 'letterpaper']:
+            options.append('geometry')
+            options.append(papersize)
+        else:
+            raise ValueError("If present, sffms_papersize must be set to 'a4paper' or 'letterpaper'.")
         
         options_str = ''
         if len(options) > 0:

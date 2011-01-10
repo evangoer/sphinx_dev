@@ -37,6 +37,7 @@ child scene. suppress_numbering is designed to be a direct child of
 the chapter it's supposed to act upon. If it goes any deeper -- poof!
 
 Here is another paragraph. And now for some verse:
+
 | OH POINTY BIRDS
 | OH POINTY POINTY
 |
