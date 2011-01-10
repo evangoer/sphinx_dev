@@ -7,9 +7,9 @@ This is a test chapter.
 This is a paragraph with some *emphasized words*.
 It also has some **strong emphasis**, which is a little more exciting.
 
-In this paragraph, we thought, ``Wouldn't it be nice to 
-have some sort of 'thought' markup?`` Indeed it would, friend. 
-Indeed it would. Even better? :kbd:`Small caps text!`
+In this paragraph, we thought, :thought:`Wouldn't it be nice to 
+have some sort of 'thought' markup?` Indeed it would, friend. 
+Indeed it would. Even better? :textsc:`Small caps text!`
 
   "My name is Inigo Montoya. You killed my father. Prepare to die."
 
@@ -37,7 +37,6 @@ child scene. suppress_numbering is designed to be a direct child of
 the chapter it's supposed to act upon. If it goes any deeper -- poof!
 
 Here is another paragraph. And now for some verse:
-
 | OH POINTY BIRDS
 | OH POINTY POINTY
 |

@@ -82,6 +82,15 @@ def setup(app):
         text=(pass_me, pass_me), man=(pass_me, pass_me))
     app.add_directive('synopsis', SffmsSynopsisDirective)
     
+    # Add two inline styles defined by sffms (thought and textsc)
+    app.add_node(thought, html=(pass_me, pass_me), latex=(pass_me, pass_me),
+        text=(pass_me, pass_me), man=(pass_me, pass_me))
+    app.add_generic_role('thought', thought)
+    
+    app.add_node(textsc, html=(pass_me, pass_me), latex=(pass_me, pass_me),
+        text=(pass_me, pass_me), man=(pass_me, pass_me))
+    app.add_generic_role('textsc', textsc)
+    
     app.add_builder(SffmsBuilder)
 
 def skip_me(self, node): raise nodes.SkipNode
@@ -294,16 +303,19 @@ class SffmsTranslator(nodes.NodeVisitor):
         
     def depart_emphasis(self, node):
         self.body.append('}')
-
-    def visit_literal(self, node):
-        if 'kbd' in node['classes']:
-            self.body.append('\\textsc{')
-        else:
-            self.body.append('\\thought{')
-            
-    def depart_literal(self, node):
-        self.body.append('}')
+    
+    def visit_thought(self, node):
+        self.body.append('\\thought{')
         
+    def depart_thought(self, node):
+        self.body.append('}')
+    
+    def visit_textsc(self, node):
+        self.body.append('\\textsc{')
+
+    def depart_textsc(self, node):
+        self.body.append('}')
+ 
     def visit_line_block(self, node):
         if not self.config.sffms_doublespace_verse:
             self.body.append('\n\\begin{singlespace}')
@@ -400,6 +412,7 @@ class SffmsTranslator(nodes.NodeVisitor):
             ('label', 'skip'),
             ('legend', 'skip'),
             ('list_item', 'skip'),
+            ('literal', 'skip'),
             ('literal_block', 'skip'),
             ('literal_emphasis', 'skip'),
             ('meta', 'skip'),
@@ -574,6 +587,10 @@ class SffmsHeader(object):
         elif isinstance(wc, int):
             self.header.append('\\wordcount{%d}' % wc )
 
+class thought(nodes.Inline, nodes.TextElement): pass
+
+class textsc(nodes.Inline, nodes.TextElement): pass
+
 class suppress_numbering(nodes.General, nodes.Element): pass
     
 class synopsis(nodes.Structural, nodes.Element): pass
@@ -592,6 +609,5 @@ class SffmsSynopsisDirective(Directive):
         self.assert_has_content()
         text = '\n'.join(self.content)
         synopsis_node = self.node_class(rawsource=text)
-        # Parse the directive contents.
         self.state.nested_parse(self.content, self.content_offset, synopsis_node)
         return [synopsis_node]
