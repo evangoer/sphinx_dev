@@ -23,9 +23,9 @@ def add_nodes(app):
         text=(pass_me, pass_me), man=(pass_me, pass_me))
     app.add_generic_role('textsc', textsc)
 
-def skip_me(self, node): raise nodes.SkipNode
+def skip_me(node): raise nodes.SkipNode
 
-def pass_me(self, node): pass
+def pass_me(node): pass
 
 class thought(nodes.Inline, nodes.TextElement): pass
 

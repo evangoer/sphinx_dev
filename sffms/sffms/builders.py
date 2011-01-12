@@ -6,7 +6,7 @@ from docutils.io import StringOutput
 from os import path
 import codecs
 
-from writer import SffmsWriter
+from writers import SffmsWriter
 
 class SffmsBuilder(Builder):
     """

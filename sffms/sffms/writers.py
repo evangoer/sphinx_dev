@@ -366,7 +366,9 @@ class SffmsHeader(object):
         
         # despite what the sffms LaTeX docs imply, I don't think sffms supports any other paper sizes.
         papersize = self.config.sffms_papersize
-        if papersize and papersize in ['a4paper', 'letterpaper']:
+        if papersize == None:
+            pass
+        elif papersize in ['a4paper', 'letterpaper']:
             options.append('geometry')
             options.append(papersize)
         else:

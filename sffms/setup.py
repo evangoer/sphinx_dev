@@ -3,12 +3,12 @@ from distutils.core import setup
 setup(
     name = 'sffms',
     packages = ['sffms'],
-    version = '0.9.2',
+    version = '0.9.3',
     description = 'Sffms-style LaTeX output for Sphinx',
     author = 'Evan Goer',
     author_email = 'evan@goer.org',
     url = 'http://github.com/evangoer/sphinx-dev/sffms',
-    install_requires=['Sphinx>=1.0']
+    requires = ['Sphinx (>=1.0)'],
     classifiers = [
         'Development Status :: 4 - Beta',
         'Environment :: Console',
