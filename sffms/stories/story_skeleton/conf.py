@@ -42,12 +42,10 @@ sffms_author = 'Your Name'
 
 # Provides a free-form multi-line address, telephone number, email address,
 # or whatever contact info you wish to provide.
-sffms_address = '''
-123 Main Street
+sffms_address = '''123 Main Street
 San Jose, CA 95128
 (408) 555-1212
-youremail@domain.com
-'''
+youremail@domain.com'''
 
 # If True, typesets this story as a novel. Top-level sections become chapters 
 # instead of scenes, and each chapters starts a new page.
