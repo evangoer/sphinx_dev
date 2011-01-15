@@ -1,6 +1,6 @@
-**********
+##########
 Your Title
-**********
+##########
 
 This is an example story. Above, you can see a story title,
 "Your Title". The actual words in the title above will not 
@@ -12,7 +12,7 @@ it's required to generate the proper structure for your
 story. Second, it *will* appear if you decide to generate 
 HTML. It's therefore a good idea to change the title above 
 to be the same as the sffms_title. Be sure to change the 
-overline and underline of asterisks to match your new title.
+overline and underline to match your new title.
 
 Scene Break 1
 =============
