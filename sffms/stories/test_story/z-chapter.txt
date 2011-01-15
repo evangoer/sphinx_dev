@@ -6,7 +6,7 @@ Preface: Z is for Zombie!
 We're testing document order by adding another chapter. Chapter Z 
 comes before Chapter 1, of course.
 
-There is also a suppress_numbering directive.
+There is also a suppress_numbering directive. It is awesome!
 
 NEW SCENE
 ---------

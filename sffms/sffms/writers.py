@@ -1,5 +1,5 @@
 import re
-from addnodes import skip_me, pass_me
+from addnodes import skip_me, pass_me, suppress_numbering
 from docutils import nodes, writers
 from sphinx.addnodes import start_of_file
 from sphinx.util.compat import Directive
