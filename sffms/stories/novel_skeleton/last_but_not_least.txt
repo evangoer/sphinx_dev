@@ -2,12 +2,10 @@
 Scenes
 ******
 
-This is a new chapter.
+This is a new chapter. Like the short story example, it has scenes.
 
 Scene Break 1
 =============
-
-And guess what? Like the short story example, it has scenes! 
 
 If you generate PDF, this text will show up simply as a "#", a
 scene break in Standard Manuscript format. It doesn't actually 
@@ -26,5 +24,4 @@ Scene Break
 
 Here is more text after yet another scene break. Keep in mind that
 you don't have to have any scene breaks at all. You can just have 
-a story title at the top followed by lots of paragraphs, and 
-everything will work fine.
+chapters with paragraphs, and everything will work fine.

@@ -11,5 +11,4 @@ directive, you can add files in any order.
 
 The layout of a novel is a little bit different from a 
 short story. For novels, sffms makes sure that each 
-chapter starts on a new page. It also starts the chapter
-title closer to the middle of the page.
+chapter starts on a new page.
