@@ -1,0 +1,11 @@
+##########
+Your Title
+##########
+
+.. toctree::
+   :maxdepth: 2
+
+   a_chapter.txt
+   some_other_chapter.txt
+   last_but_not_least.txt
+

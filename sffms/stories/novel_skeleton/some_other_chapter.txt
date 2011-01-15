@@ -1,0 +1,21 @@
+******************
+Some Other Chapter
+******************
+
+As with short stories, the overall novel title is currently 
+set to "Your Title". This is set by the sffms_title you
+you defined in conf.py. 
+
+However, having a story title to the "index.txt" file is still 
+important. First, it's required to generate the proper structure 
+for your story. Second, it *will* appear if you decide to generate 
+HTML. It's therefore a good idea to change the title in "index.txt" 
+to be the same as the sffms_title. Be sure to change the 
+overline and underline of asterisks to match your new title.
+
+Note that if you really know what you are doing, you can create a 
+novel all in a single file, or a short story that spans multiple files.
+The key thing to remember is that if you want to use multiple files,
+you should have a "toctree" directive in your master "index.txt" file. 
+If you want to put everything in a single file, you should omit the toctree.
+
