@@ -5,21 +5,23 @@ Your Title
 This is an example story. Above, you can see a story title,
 "Your Title". The actual words in the title above will not 
 actually appear in the PDF -- instead, the PDF will display
-the sffms_title you defined in the conf.py file. In this 
-sense, "Your Title" above is just dummy text.
+the sffms_title you defined in conf.py. 
 
-However, the title "Your Title" above *will* appear if you 
-decide to generate HTML. It's therefore a good idea to 
-change the title above to be the same as the sffms_title.
+However, the title "Your Title" is still important. First,
+it's required to generate the proper structure for your 
+story. Second, it *will* appear if you decide to generate 
+HTML. It's therefore a good idea to change the title above 
+to be the same as the sffms_title. Be sure to change the 
+overline and underline of asterisks to match your new title.
 
 Scene Break 1
 =============
 
 This is a scene break. 
 
-If you generate PDF, this text will show up simply as a "#", which 
-follows the conventions of Standard Manuscript format. It doesn't
-actually matter that the text says "Scene Break 1".
+If you generate PDF, this text will show up simply as a "#", a
+scene break in Standard Manuscript format. It doesn't actually 
+matter that the text says "Scene Break 1".
 
 If you generate HTML, you will actually see a new section with 
 a visible title of "Scene Break 1". That will look a little silly.
@@ -34,4 +36,5 @@ Scene Break
 
 Here is more text after yet another scene break. Keep in mind that
 you don't have to have any scene breaks at all. You can just have 
-a story title at the top followed by lots of paragraphs.
+a story title at the top followed by lots of paragraphs, and 
+everything will work fine.
