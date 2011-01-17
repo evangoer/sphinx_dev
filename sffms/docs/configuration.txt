@@ -1,0 +1,92 @@
+Configuration
+=============
+
+This section describes configuration values in ``conf.py``.
+
+sffms_title
+-----------
+
+Example::
+
+    sffms_title = 'Your Title'
+
+Sets the title. This field is **required**.
+
+
+sffms_author
+-----------
+
+Example::
+
+    sffms_author = 'Your Name'
+
+# REQUIRED. Sets the author name.
+
+# Provides a free-form multi-line address, telephone number, email address,
+# or whatever contact info you wish to provide.
+sffms_address = '''123 Main Street
+San Jose, CA 95128
+(408) 555-1212
+youremail@domain.com'''
+
+# If True, typesets this story as a novel. Top-level sections become chapters 
+# instead of scenes, and each chapters starts a new page.
+sffms_novel = True
+
+# Tweaks the layout slightly according to a particular publisher's standards. Must 
+# be set to one of: None, 'anon', 'baen', 'daw', or 'wotf'.
+# sffms_submission_type = None     
+
+# Changes the entire story to singlespaced, non-monospaced font.
+# sffms_nonsubmission = False
+
+# Removes the title page. Only works if sffms_nonsubmission = True.
+# sffms_notitle = False
+
+# Sets the title in running header. By default, sffms uses sffms_title. 
+# Running headers often look nicer with a shorter version of your title.
+# sffms_runningtitle = None
+
+# Provides your real name for use with your mailing address, if that differs 
+# from your nom de plume.
+# sffms_authorname = None
+
+# Sets your surname in the running header. By default, sffms uses sffms_author.
+# Running headers often look nicer with your surname rather than your full name.
+# sffms_surname = None 
+
+# Overrides the entire running header with arbitrary LaTeX. Only use this option
+# if you're really sure you know what you are doing.
+# sffms_msheading = None
+
+# Sets the paper size. Must be set to one of: None, 'a4paper', or 'letterpaper'. 
+# If you are submitting to a U.S. publisher, leave this setting alone.
+# sffms_papersize = None
+
+# Changes the scene separator symbol from the default of "#".
+# sffms_sceneseparator = None
+
+# Changes the end-of-story symbol from the default of "# # # # #".
+# sffms_thirty = None
+
+# By default, sffms calculates a word count which is a "publisher's wordcount", 
+# i.e. *not* the same as the word count you would get from Microsoft Office.
+# If set to a number (sffms_wordcount = 12000), this overrides the calculated value.
+# If set to None, this suppresses the word count entirely.
+# sffms_wordcount = 'default'      
+
+# If True, marks the document as disposable.
+# sffms_disposable = False
+
+# If True, inserts one space after sentences instead of two spaces.
+# sffms_frenchspacing = False 
+
+# If True, doublespaces blocks of verse & poetry. By default, verse is singlespaced.
+# sffms_doublespace_verse = False
+
+# Changes quote behavior. Must be one of: None, 'smart', 'dumb'. You should rarely change this.
+# sffms_quote_type = None
+
+# If True, overrides the default font and uses Courier instead. You should rarely change this.
+# sffms_courier = False
+
