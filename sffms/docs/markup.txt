@@ -19,6 +19,9 @@ Verse
 Emphasis
 --------
 
+Strong
+------
+
 Thought
 -------
 
