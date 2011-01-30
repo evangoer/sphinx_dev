@@ -22,6 +22,11 @@ setup(
         'Topic :: Documentation',
         'Topic :: Text Processing :: Markup :: LaTeX',
     ],
+    entry_points = {
+        'console_scripts': [
+            'sffms-quickstart = sffms.quickstart:main'
+        ]
+    },
     long_description = '''
         sffms LaTeX Extension for Sphinx
         ================================

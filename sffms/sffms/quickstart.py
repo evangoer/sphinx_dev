@@ -44,7 +44,7 @@ epub_copyright = u'%(copyright)s'
 '''
 
 
-def main(argv):
+def main():
     fields = get_input()
     print conf_text % fields
     # write_conf_file()
