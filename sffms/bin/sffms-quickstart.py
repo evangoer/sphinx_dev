@@ -36,7 +36,7 @@ html_static_path = ['_static']
 # -- Options for EPUB output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'%(project)s'
+epub_title = u'%(title)s'
 epub_author = u'%(author)s'
 epub_publisher = u'%(author)s'
 epub_copyright = u'%(copyright)s'
