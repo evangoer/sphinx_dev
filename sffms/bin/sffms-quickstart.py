@@ -6,15 +6,41 @@ from sphinx.quickstart import do_prompt, boolean, is_path, ok
 from sphinx.util.console import bold
 
 conf_text ='''\
-# Configuration file for %(title)s
+# Configuration file for "%(title)s"
 # Created by sffms-quickstart on %(now)s.
+#
+# -- Options for HTML output ---------------------------------------------------
+
+# The remaining configuration values are either general Sphinx 
+# settings, or settings for HTML and EPUB output. This configuration
+# file is intentionally very minimal -- for basic HTML and EPUB output,
+# you shouldn't have to change a thing. However, you can customize 
+# this file much more heavily if need be. For more information, refer 
+# to the Sphinx documentation at http://sphinx.pocoo.org/config.html.
 #
 # -- General configuration -----------------------------------------------------
 #
-# Add any Sphinx extension module names here, as strings. They can be extensions
-# coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sffms']
 master_doc = '%(master_doc)s'
+project = u'%(title)s'
+copyright = u'%(copyright)s'
+source_suffix = '.txt'
+
+# -- Options for HTML output ---------------------------------------------------
+
+html_theme = 'haiku'
+html_title = u'%(title)s'
+html_short_title = u'%(runningtitle)s'
+html_static_path = ['_static']
+
+# -- Options for EPUB output ---------------------------------------------------
+
+# Bibliographic Dublin Core info.
+epub_title = u'%(project)s'
+epub_author = u'%(author)s'
+epub_publisher = u'%(author)s'
+epub_copyright = u'%(copyright)s'
+
 '''
 
 
@@ -22,6 +48,7 @@ def main(argv):
     fields = get_input()
     print conf_text % fields
     # write_conf_file()
+    # TODO nicer interrupt behavior, like sphinx-quickstart
 
 
 def get_input():
@@ -44,15 +71,18 @@ generates a single master story file. Short stories are also
 typeset a little differently from novels.'''
     do_prompt(fields, 'novel', 'Are you creating a novel? (y/N)', 'n', boolean)
 
+    print ''
     do_prompt(fields, 'title', 'Enter your manuscript\'s title')
     
     print '''
 Your title appears in a running header at the top of the page.
-If you have a long title, consider supplying a shorter version. 
-For example, for 'The Adventures of Sherlock Holmes: A Scandal in 
-Bohemia,' a short version could be 'A Scandal in Bohemia.' '''
+If you have a long title, consider supplying a shorter version
+for inclusion in the running header. For example, for 
+'The Adventures of Sherlock Holmes: A Scandal in Bohemia,' 
+the short version could be 'A Scandal in Bohemia.' '''
     do_prompt(fields, 'runningtitle', 'Optionally enter your manuscript\'s short title', validator=ok)
     
+    print ''
     do_prompt(fields, 'author', 'Enter your name')
     
     print '''
@@ -67,10 +97,9 @@ Your story source is contained in a master file. This file
 either contains the entire story, or a table of contents
 that points to separate chapter files.'''
     do_prompt(fields, 'master_doc', 'Name of your master source file (without suffix)', 'manuscript')
-
-    # assume suffix of .txt
     
     fields['now'] = time.asctime()
+    fields['copyright'] = time.strftime('%Y') + ', ' + fields['author']
     return fields
 
 def write_conf_file():
