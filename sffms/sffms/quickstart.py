@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys, os, time, codecs
 
 from sphinx.quickstart import do_prompt, boolean, is_path, ok
