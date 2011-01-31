@@ -1,4 +1,4 @@
-conf_text ='''\
+conf_py ='''\
 # Configuration file for "%(title)s"
 # Created by sffms-quickstart on %(now)s.
 #
@@ -35,6 +35,3 @@ epub_publisher = u'%(author)s'
 epub_copyright = u'%(copyright)s'
 
 '''
-
-def fake_method():
-    print conf_text

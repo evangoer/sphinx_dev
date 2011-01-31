@@ -8,10 +8,9 @@ from sphinx.util.console import bold
 
 import templates
 
-
 def main():
     fields = get_input()
-    print templates.conf_text % fields
+    print templates.conf_py % fields
     # write_conf_file()
     # TODO nicer interrupt behavior, like sphinx-quickstart
 
@@ -55,7 +54,7 @@ Your full name (or surname, if specified) appears in the
 running header. Consider supplying your surname here.'''
     do_prompt(fields, 'surname', 'Optionally enter your surname', validator=ok)
     
-    # what is your address? (some kind of loop)
+    # TODO what is your address? (some kind of loop)
 
     print '''
 Your story source is contained in a master file. This file
