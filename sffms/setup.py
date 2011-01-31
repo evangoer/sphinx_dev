@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = 'sffms',
-    packages = ['sffms'],
+    packages = ['sffms', 'sffms.quickstart'],
     version = '0.9.3',
     description = 'Sffms-style LaTeX output for Sphinx',
     author = 'Evan Goer',
