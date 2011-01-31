@@ -54,7 +54,23 @@ Your full name (or surname, if specified) appears in the
 running header. Consider supplying your surname here.'''
     do_prompt(fields, 'surname', 'Optionally enter your surname', validator=ok)
     
-    # TODO what is your address? (some kind of loop)
+    print '''
+You may enter a free-form multi-line address, including a postal 
+address, telephone number, email address, or whatever contact info 
+you wish to include. The address is displayed on the title page. 
+When you are done entering the address, enter an empty (blank) line.'''
+    i = 1
+    fields['address'] = ''
+    while True:
+        address_line = 'address{0}'.format(i)
+        do_prompt(fields, address_line, 'Enter address line {0}'.format(i), validator=ok)
+        if fields[address_line].strip() is '':
+            break
+        else:
+            if i > 1:
+                fields['address'] += '\n'
+            fields['address'] += fields[address_line].strip()
+            i = i + 1
 
     print '''
 Your story source is contained in a master file. This file

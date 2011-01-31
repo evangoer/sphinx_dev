@@ -2,7 +2,9 @@ conf_py ='''\
 # Configuration file for "%(title)s"
 # Created by sffms-quickstart on %(now)s.
 #
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for sffms output ---------------------------------------------------
+
+sffms_address = \'\'\'%(address)s\'\'\'
 
 # The remaining configuration values are either general Sphinx 
 # settings, or settings for HTML and EPUB output. This configuration
