@@ -14,7 +14,14 @@ def main():
         mkdir_p(fields['path'])
     write_file(templates.conf_py % fields, fields['path'], 'conf.py')
     # TODO write makefile
-    # TODO write skeleton source files
+    # TODO need to handle the novel/story title correctly
+    if fields['novel'] is True:
+        write_file(templates.novel_ms % fields, fields['path'], fields['master_doc'] + '.txt')
+        write_file(templates.novel_ch1, fields['path'], 'iss.txt')
+        write_file(templates.novel_ch2, fields['path'], 'mountains.txt')
+    # else:
+    #    write_file(templates.story_ms % fields, fields['path'], fields['master_doc'] + '.txt')
+        
     # TODO nicer interrupt behavior, like sphinx-quickstart
 
 # TODO properly handle when optional fields are skipped/blank
@@ -41,6 +48,7 @@ typeset a little differently from novels.'''
 
     print ''
     do_prompt(fields, 'title', 'Enter your manuscript\'s title')
+    # TODO function here to create the real reST_title, to be assigned to skeleton files
     
     print '''
 Your title appears in a running header at the top of the page.
