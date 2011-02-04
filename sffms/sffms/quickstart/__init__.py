@@ -10,7 +10,6 @@ import templates
 
 def main():
     fields = get_input()
-    # TODO check that we're not in a Sphinx directory already
     write_conf_file(templates.conf_py % fields)
     # TODO write makefile
     # TODO write skeleton source files
@@ -20,7 +19,7 @@ def main():
 def get_input():
     fields = {}
 
-    print bold('Welcome to the sffms quickstart utility')
+    print bold('Welcome to the sffms quickstart utility!')
     print '''
 Please enter values for the following settings (just press Enter to
 accept a default value, if one is given in brackets).'''
@@ -28,7 +27,7 @@ accept a default value, if one is given in brackets).'''
     print '''
 Enter the directory in which to create your manuscript. The default
 is this directory.'''
-    do_prompt(fields, 'path', 'Path to your manuscript', '.', is_path)
+    prompt_path(fields)
     
     print '''
 You can use this script to set up a novel or a short story.
@@ -85,9 +84,17 @@ that points to separate chapter files.'''
     fields['copyright'] = time.strftime('%Y') + ', ' + fields['author']
     return fields
 
-# TODO account for path
+def prompt_path(fields):
+    do_prompt(fields, 'path', 'Path to your manuscript', '.', is_path)
+    while os.path.isfile(os.path.join(fields['path'], 'conf.py')):
+        print bold('\nError: your path already has a conf.py.')
+        print 'sffms-quickstart will not overwrite existing projects.\n'
+        do_prompt(fields, 'path', 'Please enter a new path (or just Enter to exit)', '', is_path)
+        if not fields['path']:
+            sys.exit(1)
+
 def write_conf_file(contents):
-    f = codecs.open('./conf.py', 'w', encoding="utf-8")
+    f = codecs.open(os.path.join(fields['path'], 'conf.py'), 'w', encoding="utf-8")
     f.write(contents)
     f.close()
 
