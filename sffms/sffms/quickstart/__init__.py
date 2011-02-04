@@ -10,11 +10,13 @@ import templates
 
 def main():
     fields = get_input()
-    print templates.conf_py % fields
-    # write_conf_file()
+    # TODO check that we're not in a Sphinx directory already
+    write_conf_file(templates.conf_py % fields)
+    # TODO write makefile
+    # TODO write skeleton source files
     # TODO nicer interrupt behavior, like sphinx-quickstart
 
-
+# TODO properly handle when optional fields are skipped/blank
 def get_input():
     fields = {}
 
@@ -24,7 +26,8 @@ Please enter values for the following settings (just press Enter to
 accept a default value, if one is given in brackets).'''
     
     print '''
-Enter the directory in which to create your manuscript.'''
+Enter the directory in which to create your manuscript. The default
+is this directory.'''
     do_prompt(fields, 'path', 'Path to your manuscript', '.', is_path)
     
     print '''
@@ -41,18 +44,18 @@ typeset a little differently from novels.'''
     print '''
 Your title appears in a running header at the top of the page.
 If you have a long title, consider supplying a shorter version
-for inclusion in the running header. For example, for 
-'The Adventures of Sherlock Holmes: A Scandal in Bohemia,' 
-the short version could be 'A Scandal in Bohemia.' '''
-    do_prompt(fields, 'runningtitle', 'Optionally enter your manuscript\'s short title', validator=ok)
+for inclusion in the running header. For example, for the story
+'The Adventures of Sherlock Holmes: A Scandal in Bohemia,' the
+short version could be 'A Scandal in Bohemia.' '''
+    do_prompt(fields, 'runningtitle', 'Enter your manuscript\'s short title (optional)', validator=ok)
     
     print ''
-    do_prompt(fields, 'author', 'Enter your name')
+    do_prompt(fields, 'author', 'Enter your full name')
     
     print '''
 Your full name (or surname, if specified) appears in the 
 running header. Consider supplying your surname here.'''
-    do_prompt(fields, 'surname', 'Optionally enter your surname', validator=ok)
+    do_prompt(fields, 'surname', 'Enter your surname (optional)', validator=ok)
     
     print '''
 You may enter a free-form multi-line address, including a postal 
@@ -82,9 +85,10 @@ that points to separate chapter files.'''
     fields['copyright'] = time.strftime('%Y') + ', ' + fields['author']
     return fields
 
-def write_conf_file():
-    f = codecs.open('./conf.py', 'w', encoding='utf-8')
-    f.write("HELLOSKI")
+# TODO account for path
+def write_conf_file(contents):
+    f = codecs.open('./conf.py', 'w', encoding="utf-8")
+    f.write(contents)
     f.close()
 
 if __name__ == '__main__':

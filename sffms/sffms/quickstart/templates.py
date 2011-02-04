@@ -6,7 +6,7 @@ conf_py ='''\
 
 # Sets the title. The title appears on the title page and in the 
 # running header. This field is required.
-sffms_title = u'%(title)s'
+sffms_title = '%(title)s'
 
 # Specifies whether to typeset this manuscript as a novel or as 
 # a short story.
@@ -14,7 +14,7 @@ sffms_novel = %(novel)s
 
 # Sets the author name. The author name appears on the title page  
 # and in the running header. This field is required.
-sffms_author = u'%(author)s'
+sffms_author = '%(author)s'
 
 # Provides a free-form multi-line address, which is typically a postal
 # address, but could also include a phone number, email address, or any
@@ -27,11 +27,11 @@ sffms_address = u\'\'\'%(address)s\'\'\'
 # sffms_authorname = None
 
 # Changes the font to 12-point, 10-pitch Courier, as an alternative to 
-# LaTeX’s default monospace font.
+# LaTeX's default monospace font.
 # sffms_courier = False
 
 # Indicates whether the manuscript is disposable. When set to True, this
-# field causes sffms to print “Disposable Copy” under the word count on 
+# field causes sffms to print "Disposable Copy" under the word count on 
 # the title page.
 # sffms_disposable = False
 
@@ -44,7 +44,7 @@ sffms_address = u\'\'\'%(address)s\'\'\'
 # sffms_frenchspacing = False
 
 # Overrides the entire running header with arbitrary LaTeX. Only use 
-# this option if you really know what you are doing. Don’t forget to 
+# this option if you really know what you are doing. Don't forget to 
 # escape backslashes so that they will get passed to LaTeX correctly.
 # sffms_msheading = None
 
@@ -66,21 +66,21 @@ sffms_address = u\'\'\'%(address)s\'\'\'
 
 # Sets the title in the running header. Running headers usually look 
 # nicer if you supply a shorter version of your title. 
-sffms_runningtitle = u'%(runningtitle)s'
+sffms_runningtitle = '%(runningtitle)s'
 
 # Changes the scene separator string from "#" using plain text or 
 # arbitrary LaTeX. 
 # sffms_sceneseparator = None
 
-# Adjusts the layout according to a particular publisher’s standards. 
+# Adjusts the layout according to a particular publisher's standards. 
 # Must be set to one of: None, 'anon', 'baen', 'daw', 'wotf'.
 # sffms_submission_type = None
 
 # Sets your surname in the running header. Traditionally, running 
-# headers use the author’s surname rather than their full name.
-sffms_surname = u'%(surname)s'
+# headers use the author's surname rather than their full name.
+sffms_surname = '%(surname)s'
 
-# Controls the word count. When you you run latex on your manuscript, 
+# Controls the word count. When you you run LaTeX on your manuscript, 
 # this also generates an automatic word count. You can override this
 # by setting sffms_wordcount to a number, or suppress the wordcount 
 # entirely by setting this field to None.
