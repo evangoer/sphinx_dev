@@ -3,14 +3,16 @@ import os
 import time
 import codecs
 
-from sphinx.quickstart import do_prompt, boolean, is_path, ok
+from sphinx.quickstart import do_prompt, boolean, is_path, ok, mkdir_p
 from sphinx.util.console import bold
 
 import templates
 
 def main():
     fields = get_input()
-    write_conf_file(templates.conf_py % fields)
+    if not os.path.isdir(fields['path']):
+        mkdir_p(fields['path'])
+    write_file(templates.conf_py % fields, fields['path'], 'conf.py')
     # TODO write makefile
     # TODO write skeleton source files
     # TODO nicer interrupt behavior, like sphinx-quickstart
@@ -93,8 +95,8 @@ def prompt_path(fields):
         if not fields['path']:
             sys.exit(1)
 
-def write_conf_file(contents):
-    f = codecs.open(os.path.join(fields['path'], 'conf.py'), 'w', encoding="utf-8")
+def write_file(contents, path, filename):
+    f = codecs.open(os.path.join(path, filename), 'w', encoding="utf-8")
     f.write(contents)
     f.close()
 
