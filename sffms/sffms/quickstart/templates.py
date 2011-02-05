@@ -118,46 +118,52 @@ epub_publisher = u'%(author)s'
 epub_copyright = u'%(copyright)s'
 
 '''
+story_ms = '''\
+.. Master manuscript file, created by sffms-quickstart on %(now)s. 
+   You may add new paragraphs (and optionally, new scene breaks) directly 
+   to this file. NOTE: This paragraph is a comment and will not 
+   appear in your novel's output.
+
+%(reST_title)s
+
+It is a truth universally acknowledged, that a single man in possession
+of a good fortune, must be in want of a wife.
+
+Scene Break
+===========
+
+It was a dark and stormy night...
+
+'''
 
 novel_ms = '''\
-##########
-Test Title
-##########
+.. Master manuscript file, created by sffms-quickstart on %(now)s. 
+   To add more chapters, just create new .txt files in this directory and then 
+   add the names of those files to the list below. NOTE: This paragraph 
+   is a comment and will not appear in your novel's output.
+
+%(reST_title)s
 
 .. toctree::
    :maxdepth: 2
    
-   iss.txt
-   mountains.txt
+   new_chapter.txt
+   more_stuff.txt
 '''
 
-novel_ch1 = '''\
+novel_new_chapter = '''\
 ****************
-On the River Iss
+In the Beginning
 ****************
 
-In the shadows of the forest that flanks the crimson plain by the
-side of the Lost Sea of Korus in the Valley Dor, beneath the hurtling
-moons of Mars, speeding their meteoric way close above the bosom of
-the dying planet, I crept stealthily along the trail of a shadowy
-form that hugged the darker places with a persistency that proclaimed
-the sinister nature of its errand.
-
-For six long Martian months I had haunted the vicinity of the
-hateful Temple of the Sun, within whose slow-revolving shaft, far
-beneath the surface of Mars, my princess lay entombed--but whether
-alive or dead I knew not...
+It is a truth universally acknowledged, that a single man in possession
+of a good fortune, must be in want of a wife.
 '''
 
-novel_ch2 = '''\
-*******************
-Under the Mountains
-*******************
+novel_more_stuff = '''\
+**********************
+I Need a Chapter Title
+**********************
 
-As we advanced up the river which winds beneath the Golden Cliffs
-out of the bowels of the Mountains of Otz to mingle its dark waters
-with the grim and mysterious Iss the faint glow which had appeared
-before us grew gradually into an all-enveloping radiance.
-
-The river widened ...
+It was a dark and stormy night...
 '''

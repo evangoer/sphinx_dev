@@ -10,17 +10,19 @@ import templates
 
 def main():
     fields = get_input()
-    if not os.path.isdir(fields['path']):
-        mkdir_p(fields['path'])
-    write_file(templates.conf_py % fields, fields['path'], 'conf.py')
+
+    path = fields['path']
+    if not os.path.isdir(path):
+        mkdir_p(path)
+
+    write_file(templates.conf_py % fields, path, 'conf.py')
     # TODO write makefile
-    # TODO need to handle the novel/story title correctly
     if fields['novel'] is True:
-        write_file(templates.novel_ms % fields, fields['path'], fields['master_doc'] + '.txt')
-        write_file(templates.novel_ch1, fields['path'], 'iss.txt')
-        write_file(templates.novel_ch2, fields['path'], 'mountains.txt')
-    # else:
-    #    write_file(templates.story_ms % fields, fields['path'], fields['master_doc'] + '.txt')
+        write_file(templates.novel_ms % fields, path, fields['master_doc'] + '.txt')
+        write_file(templates.novel_new_chapter, path, 'new_chapter.txt')
+        write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
+    else:
+        write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
         
     # TODO nicer interrupt behavior, like sphinx-quickstart
 
@@ -48,7 +50,7 @@ typeset a little differently from novels.'''
 
     print ''
     do_prompt(fields, 'title', 'Enter your manuscript\'s title')
-    # TODO function here to create the real reST_title, to be assigned to skeleton files
+    fields['reST_title'] = generate_reST_title(fields['title'])
     
     print '''
 Your title appears in a running header at the top of the page.
@@ -102,6 +104,10 @@ def prompt_path(fields):
         do_prompt(fields, 'path', 'Please enter a new path (or just Enter to exit)', '', is_path)
         if not fields['path']:
             sys.exit(1)
+
+def generate_reST_title(title):
+    bar = '#' * len(title)
+    return bar + '\n' + title + '\n' + bar
 
 def write_file(contents, path, filename):
     f = codecs.open(os.path.join(path, filename), 'w', encoding="utf-8")
