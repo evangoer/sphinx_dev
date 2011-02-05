@@ -20,7 +20,7 @@ sffms_author = '%(author)s'
 # address, but could also include a phone number, email address, or any
 # other contact info you wish to include. The address is displayed on the
 # title page. This field is not required, but it is strongly recommended.
-sffms_address = u\'\'\'%(address)s\'\'\'
+sffms_address = %(address)s
 
 # Provides your real name for use with your mailing address, if you are 
 # using a pen name or are publishing under some variation of your name.
@@ -66,7 +66,7 @@ sffms_address = u\'\'\'%(address)s\'\'\'
 
 # Sets the title in the running header. Running headers usually look 
 # nicer if you supply a shorter version of your title. 
-sffms_runningtitle = '%(runningtitle)s'
+sffms_runningtitle = %(runningtitle)s
 
 # Changes the scene separator string from "#" using plain text or 
 # arbitrary LaTeX. 
@@ -78,7 +78,7 @@ sffms_runningtitle = '%(runningtitle)s'
 
 # Sets your surname in the running header. Traditionally, running 
 # headers use the author's surname rather than their full name.
-sffms_surname = '%(surname)s'
+sffms_surname = %(surname)s
 
 # Controls the word count. When you you run LaTeX on your manuscript, 
 # this also generates an automatic word count. You can override this
@@ -106,7 +106,7 @@ source_suffix = '.txt'
 
 html_theme = 'haiku'
 html_title = u'%(title)s'
-html_short_title = u'%(runningtitle)s'
+html_short_title = %(runningtitle)s
 html_static_path = ['_static']
 
 # -- Options for EPUB output ---------------------------------------------------
