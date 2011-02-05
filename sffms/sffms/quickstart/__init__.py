@@ -9,6 +9,14 @@ from sphinx.util.console import bold
 import templates
 
 def main():
+    try:
+        sys.exit(inner_main())
+    except (KeyboardInterrupt, EOFError):
+        print
+        print '[Interrupted.]'
+        sys.exit(1)
+
+def inner_main():
     fields = get_input()
 
     path = fields['path']
@@ -24,9 +32,8 @@ def main():
     else:
         write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
         
-    # TODO nicer interrupt behavior, like sphinx-quickstart
+    return 0
 
-# TODO properly handle when optional fields are skipped/blank
 def get_input():
     fields = {}
 
@@ -131,5 +138,4 @@ def write_file(contents, path, filename):
     f.write(contents)
     f.close()
 
-if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    
