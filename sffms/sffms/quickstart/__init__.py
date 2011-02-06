@@ -29,7 +29,7 @@ def inner_main(argv):
     write_file(templates.makefile, fields['path'], 'Makefile')
     write_skeleton_files(fields)
     
-    # TODO print success message
+    print_success(fields)
     return 0
 
 # TODO replace bad ' characters?
@@ -156,4 +156,17 @@ def write_skeleton_files(fields):
         write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
     else:
         write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
+
+def print_success(fields):
+    print 
+    print bold('Finished: Initial manuscript files created in directory \n%s.' % os.path.abspath(fields['path']))
+    print
+    if fields['novel'] is True:
+        print 'You should now begin adding material to your chapter .txt files.'
+        print 'To add new chapters or change their filenames, edit %s.txt.' % fields['master_doc']
+    else:
+        print 'You should now begin adding material to %s.txt.' % fields['master_doc']
+    print 'To generate PDF, run the command ' + bold('make sffmspdf') + ' in the directory.'
+    print 'Happy writing!'
+    
     
