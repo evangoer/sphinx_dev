@@ -6,7 +6,7 @@ import codecs
 from sphinx.quickstart import do_prompt, boolean, is_path, ok, mkdir_p
 from sphinx.util.console import bold
 
-import templates
+import sffms.quickstart.templates
 
 def main():
     if len(sys.argv) > 2:
