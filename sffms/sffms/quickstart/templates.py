@@ -246,3 +246,29 @@ text:
 \t@echo
 \t@echo "Build finished. The text files are in $(BUILDDIR)/text."
 '''
+
+makefile_sffms = '''\
+# Makefile for Sphinx LaTeX output
+# Makefile for sffms LaTeX output
+
+ALLDOCS = $(basename $(wildcard *.tex))
+ALLPDF = $(addsuffix .pdf,$(ALLDOCS))
+
+all: $(ALLPDF)
+all-pdf: $(ALLPDF)
+
+LATEXOPTS =
+
+%.dvi: %.tex
+\tlatex $(LATEXOPTS) '$<'
+\tlatex $(LATEXOPTS) '$<'
+
+%.pdf: %.tex
+\tpdflatex $(LATEXOPTS) '$<'
+\tpdflatex $(LATEXOPTS) '$<'
+
+clean:
+\trm -f *.dvi *.log *.ind *.aux *.toc *.syn *.idx *.out *.ilg *.pla
+
+.PHONY: all all-pdf clean
+'''

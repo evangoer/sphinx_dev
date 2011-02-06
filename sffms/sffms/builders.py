@@ -7,6 +7,7 @@ from os import path
 import codecs
 
 from writers import SffmsWriter
+from sffms.quickstart.templates import makefile_sffms
 
 class SffmsBuilder(Builder):
     """
@@ -52,19 +53,13 @@ class SffmsBuilder(Builder):
 
         self.info(bold('assembling single document... '), nonl=True)
         doctree = self.assemble_doctree()
+        self.info('done')
         self.info()
         self.info(bold('writing... '), nonl=True)
         self.write_doc(self.config.master_doc, doctree)
         outfile = path.join(self.outdir, os_path(self.config.master_doc) + self.out_suffix)
         ensuredir(path.dirname(outfile))
-        try:
-            f = codecs.open(outfile, 'w', 'utf-8')
-            try:
-                f.write(self.writer.output)
-            finally:
-                f.close()
-        except (IOError, OSError), err:
-            self.warn("error writing file %s: %s" % (outfile, err))
+        self.write_file(outfile, self.writer.output)
         self.info('done')
         
     def assemble_doctree(self):
@@ -79,3 +74,20 @@ class SffmsBuilder(Builder):
     def write_doc(self, docname, doctree):
         destination = StringOutput(encoding='utf-8')
         output = self.writer.write(doctree, destination)
+    
+    def finish(self):
+        self.info(bold('copying Makefile... '), nonl=True)
+        outfile = path.join(self.outdir, 'Makefile')
+        self.write_file(outfile, makefile_sffms)
+        self.info('done')
+    
+    def write_file(self, outfile, content):
+        try:
+            f = codecs.open(outfile, 'w', 'utf-8')
+            try:
+                f.write(content)
+            finally:
+                f.close()
+        except (IOError, OSError), err:
+            self.warn("error writing file %s: %s" % (outfile, err))
+        
