@@ -32,7 +32,6 @@ def inner_main(argv):
     print_success(fields)
     return 0
 
-# TODO replace bad ' characters?
 def get_input(fields, argv):
     print bold('Welcome to the sffms quickstart utility!')
     print '''
@@ -58,6 +57,9 @@ typeset a little differently from novels.'''
     print ''
     do_prompt(fields, 'title', 'Enter your manuscript\'s title')
     fields['reST_title'] = generate_reST_title(fields['title'])
+    # We sanitize the title after creating the 'reST_title' because we 
+    # don't actually want to escape those characters in reST -- just in Python.
+    fields['title'] = py_sanitize(fields['title'])
     
     print '''
 Your title appears in a running header at the top of the page.
@@ -68,7 +70,7 @@ short version could be 'A Scandal in Bohemia.' '''
     do_prompt(fields, 'runningtitle', 'Enter your manuscript\'s short title (optional)', validator=optional)
     
     print ''
-    do_prompt(fields, 'author', 'Enter your full name')
+    do_prompt(fields, 'author', 'Enter your full name', validator=py_sanitize)
     
     print '''
 Your full name (or surname, if specified) appears in the 
@@ -86,11 +88,13 @@ When you are done entering the address, enter an empty (blank) line.'''
 Your story source is contained in a master file. This file
 either contains the entire story, or a table of contents
 that points to separate chapter files.'''
-    do_prompt(fields, 'master_doc', 'Name of your master source file (without suffix)', 'manuscript')
-    
+    do_prompt(fields, 'master_doc', 'Name of your master source file (without suffix)', 'manuscript', validator=py_sanitize)
+            
     fields['now'] = time.asctime()
     fields['copyright'] = time.strftime('%Y') + ', ' + fields['author']
-    return fields
+    
+def py_sanitize(s):
+    return s.replace('\\', '\\\\').replace("'", "\\'")
 
 def get_path_from_cmdline(argv):
     if len(argv) == 2 and is_path(argv[1]):
@@ -121,7 +125,7 @@ def prompt_address(fields):
             if i == 1:
                 fields['address'] = None
             else:
-                fields['address'] = "'''" + fields['address'] + "'''"
+                fields['address'] = "'''" + py_sanitize(fields['address']) + "'''"
             break
         else:
             if i > 1:
@@ -133,7 +137,7 @@ def optional(field):
     if field.strip() is '':
         return None
     else:
-        return "'" + field + "'"
+        return "'" + py_sanitize(field) + "'"
 
 def generate_reST_title(title):
     bar = '#' * len(title)

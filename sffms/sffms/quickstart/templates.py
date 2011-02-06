@@ -1,5 +1,5 @@
 conf_py ='''\
-# Configuration file for "%(title)s"
+# Configuration file for '%(title)s'
 # Created by sffms-quickstart on %(now)s.
 #
 # -- Options for sffms output ---------------------------------------------------
