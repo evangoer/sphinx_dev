@@ -55,7 +55,7 @@ class SffmsBuilder(Builder):
         self.info()
         self.info(bold('writing... '), nonl=True)
         self.write_doc(self.config.master_doc, doctree)
-        outfile = path.join(self.outdir, 'sffms', os_path(self.config.master_doc) + self.out_suffix)
+        outfile = path.join(self.outdir, os_path(self.config.master_doc) + self.out_suffix)
         ensuredir(path.dirname(outfile))
         try:
             f = codecs.open(outfile, 'w', 'utf-8')
