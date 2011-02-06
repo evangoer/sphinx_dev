@@ -121,8 +121,8 @@ epub_copyright = u'%(copyright)s'
 story_ms = '''\
 .. Master manuscript file, created by sffms-quickstart on %(now)s. 
    You may add new paragraphs (and optionally, new scene breaks) directly 
-   to this file. NOTE: This paragraph is a comment and will not 
-   appear in your novel's output.
+   to this file. (Note: this paragraph is a comment and will not appear
+   in your story's output.)
 
 %(reST_title)s
 
@@ -138,9 +138,10 @@ It was a dark and stormy night...
 
 novel_ms = '''\
 .. Master manuscript file, created by sffms-quickstart on %(now)s. 
-   To add more chapters, just create new .txt files in this directory and then 
-   add the names of those files to the list below. NOTE: This paragraph 
-   is a comment and will not appear in your novel's output.
+   You should not write new chapter content directly into this file. Instead, 
+   you should create new .txt files in the same directory and then add their
+   names to the list below. (Note: this paragraph is a comment and will not 
+   appear in your novel's output.)
 
 %(reST_title)s
 
@@ -259,11 +260,9 @@ all-pdf: $(ALLPDF)
 
 LATEXOPTS =
 
-%.dvi: %.tex
-\tlatex $(LATEXOPTS) '$<'
-\tlatex $(LATEXOPTS) '$<'
-
 %.pdf: %.tex
+\tlatex $(LATEXOPTS) '$<'
+\tlatex $(LATEXOPTS) '$<'
 \tpdflatex $(LATEXOPTS) '$<'
 \tpdflatex $(LATEXOPTS) '$<'
 
