@@ -9,44 +9,51 @@ from sphinx.util.console import bold
 import templates
 
 def main():
+    if len(sys.argv) > 2:
+        print 'Usage: sffms-quickstart [manuscript_directory]'
+        sys.exit(1)
     try:
-        sys.exit(inner_main())
+        sys.exit(inner_main(argv=sys.argv))
     except (KeyboardInterrupt, EOFError):
         print
         print '[Interrupted.]'
         sys.exit(1)
 
-def inner_main():
-    fields = get_input()
+def inner_main(argv):
+    fields = {}
+    get_input(fields, argv)
 
     path = fields['path']
     if not os.path.isdir(path):
         mkdir_p(path)
 
     write_file(templates.conf_py % fields, path, 'conf.py')
-    # TODO write makefile
+    write_file(templates.makefile, path, 'Makefile')
     if fields['novel'] is True:
         write_file(templates.novel_ms % fields, path, fields['master_doc'] + '.txt')
         write_file(templates.novel_new_chapter, path, 'new_chapter.txt')
         write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
     else:
         write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
-        
+    
+    # TODO print success message
     return 0
 
-def get_input():
-    fields = {}
-
+# TODO replace bad ' characters?
+def get_input(fields, argv):
     print bold('Welcome to the sffms quickstart utility!')
     print '''
 Please enter values for the following settings (just press Enter to
 accept a default value, if one is given in brackets).'''
     
-    print '''
+    fields['path'] = get_path_from_cmdline(argv)
+    if fields['path'] is None:
+        print '''
 Enter the directory in which to create your manuscript. The default
 is this directory.'''
-    prompt_path(fields)
-    
+        do_prompt(fields, 'path', 'Path to your manuscript', '.', is_path)
+    get_clear_path(fields)
+        
     print '''
 You can use this script to set up a novel or a short story.
 For novels, sffms-quickstart creates a master story file and 
@@ -92,6 +99,20 @@ that points to separate chapter files.'''
     fields['copyright'] = time.strftime('%Y') + ', ' + fields['author']
     return fields
 
+def get_path_from_cmdline(argv):
+    if len(argv) == 2 and is_path(argv[1]):
+        return argv[1]
+    else:
+        return None
+
+def get_clear_path(fields):
+    while os.path.isfile(os.path.join(fields['path'], 'conf.py')):
+        print bold('\nError: your path already has a conf.py.')
+        print 'sffms-quickstart will not overwrite existing projects.\n'
+        do_prompt(fields, 'path', 'Please enter a new path (or just Enter to exit)', '', is_path)
+        if not fields['path']:
+            sys.exit(1)
+
 def prompt_address(fields):
     """ Prompts for a multi-line address. If the user enters a blank line, we stop.
         If the user enters a blank line on the first entry, we set the address to None.
@@ -114,15 +135,6 @@ def prompt_address(fields):
             fields['address'] += fields[address_line].strip()
             i = i + 1
             
-def prompt_path(fields):
-    do_prompt(fields, 'path', 'Path to your manuscript', '.', is_path)
-    while os.path.isfile(os.path.join(fields['path'], 'conf.py')):
-        print bold('\nError: your path already has a conf.py.')
-        print 'sffms-quickstart will not overwrite existing projects.\n'
-        do_prompt(fields, 'path', 'Please enter a new path (or just Enter to exit)', '', is_path)
-        if not fields['path']:
-            sys.exit(1)
-
 def optional(field):
     if field.strip() is '':
         return None

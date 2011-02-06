@@ -167,3 +167,67 @@ I Need a Chapter Title
 
 It was a dark and stormy night...
 '''
+
+makefile = '''\
+# Makefile for Sphinx documentation
+#
+
+# You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+PAPER         =
+BUILDDIR      = _build
+
+# Internal variables.
+PAPEROPT_a4     = -D latex_paper_size=a4
+PAPEROPT_letter = -D latex_paper_size=letter
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+
+.PHONY: help clean html dirhtml singlehtml epub latex latexpdf text
+
+help:
+\t@echo "Please use \\`make <target>' where <target> is one of"
+\t@echo "  html       to make standalone HTML files"
+\t@echo "  dirhtml    to make HTML files named index.html in directories"
+\t@echo "  singlehtml to make a single large HTML file"
+\t@echo "  epub       to make an epub"
+\t@echo "  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter"
+\t@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
+\t@echo "  text       to make text files"
+
+clean:
+\t-rm -rf $(BUILDDIR)/*
+
+html:
+\t$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+\t@echo
+\t@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+dirhtml:
+\t$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
+\t@echo
+\t@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."
+
+singlehtml:
+\t$(SPHINXBUILD) -b singlehtml $(ALLSPHINXOPTS) $(BUILDDIR)/singlehtml
+\t@echo
+\t@echo "Build finished. The HTML page is in $(BUILDDIR)/singlehtml."
+
+latex:
+\t$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
+\t@echo
+\t@echo "Build finished; the LaTeX files are in $(BUILDDIR)/latex."
+\t@echo "Run \\`make' in that directory to run these through (pdf)latex" \\
+\t      "(use \\`make latexpdf' here to do that automatically)."
+
+latexpdf:
+\t$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
+\t@echo "Running LaTeX files through pdflatex..."
+\tmake -C $(BUILDDIR)/latex all-pdf
+\t@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
+
+text:
+\t$(SPHINXBUILD) -b text $(ALLSPHINXOPTS) $(BUILDDIR)/text
+\t@echo
+\t@echo "Build finished. The text files are in $(BUILDDIR)/text."
+'''
