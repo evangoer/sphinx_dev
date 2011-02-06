@@ -21,20 +21,13 @@ def main():
 
 def inner_main(argv):
     fields = {}
+    
     get_input(fields, argv)
-
-    path = fields['path']
-    if not os.path.isdir(path):
-        mkdir_p(path)
-
-    write_file(templates.conf_py % fields, path, 'conf.py')
-    write_file(templates.makefile, path, 'Makefile')
-    if fields['novel'] is True:
-        write_file(templates.novel_ms % fields, path, fields['master_doc'] + '.txt')
-        write_file(templates.novel_new_chapter, path, 'new_chapter.txt')
-        write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
-    else:
-        write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
+    make_path(fields['path'])
+    
+    write_file(templates.conf_py % fields, fields['path'], 'conf.py')
+    write_file(templates.makefile, fields['path'], 'Makefile')
+    write_skeleton_files(fields)
     
     # TODO print success message
     return 0
@@ -114,9 +107,10 @@ def get_clear_path(fields):
             sys.exit(1)
 
 def prompt_address(fields):
-    """ Prompts for a multi-line address. If the user enters a blank line, we stop.
-        If the user enters a blank line on the first entry, we set the address to None.
-        Otherwise, we build the address up up line by line.
+    """ 
+    Prompts for a multi-line address. If the user enters a blank line, we stop.
+    If the user enters a blank line on the first entry, we set the address to None.
+    Otherwise, we build the address up up line by line.
     """
     i = 1
     fields['address'] = ''
@@ -145,9 +139,21 @@ def generate_reST_title(title):
     bar = '#' * len(title)
     return bar + '\n' + title + '\n' + bar
 
+def make_path(path):
+    if not os.path.isdir(path):
+        mkdir_p(path)
+
 def write_file(contents, path, filename):
     f = codecs.open(os.path.join(path, filename), 'w', encoding="utf-8")
     f.write(contents)
     f.close()
 
+def write_skeleton_files(fields):
+    path = fields['path']
+    if fields['novel'] is True:
+        write_file(templates.novel_ms % fields, path, fields['master_doc'] + '.txt')
+        write_file(templates.novel_new_chapter, path, 'new_chapter.txt')
+        write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
+    else:
+        write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
     
