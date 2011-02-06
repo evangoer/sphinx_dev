@@ -117,6 +117,15 @@ epub_author = u'%(author)s'
 epub_publisher = u'%(author)s'
 epub_copyright = u'%(copyright)s'
 
+# -- Options for LaTeX output --------------------------------------------------
+
+# Just in case you want to build the default Sphinx LaTeX for some reason.
+# This has no effect on sffms output. It's just here so your build won't fail.
+latex_documents = [
+  ('%(master_doc)s', '%(master_doc)s.tex', u'%(title)s',
+   u'%(author)s', 'howto'),
+]
+
 '''
 story_ms = '''\
 .. Master manuscript file, created by sffms-quickstart on %(now)s. 
@@ -169,6 +178,8 @@ I Need a Chapter Title
 It was a dark and stormy night...
 '''
 
+# Adapted from the sphinx-quickstart manual. Added sffms targets
+# and stripped out some of the more obscure targets.
 makefile = '''\
 # Makefile for Sphinx documentation
 #
@@ -184,14 +195,14 @@ PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html dirhtml singlehtml epub latex latexpdf text
+.PHONY: help clean html dirhtml singlehtml epub latex latexpdf sffms sffmspdf text
 
 help:
 \t@echo "Please use \\`make <target>' where <target> is one of"
 \t@echo "  html       to make standalone HTML files"
 \t@echo "  dirhtml    to make HTML files named index.html in directories"
 \t@echo "  singlehtml to make a single large HTML file"
-\t@echo "  epub       to make an epub"
+\t@echo "  epub       to make an EPUB book"
 \t@echo "  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter"
 \t@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
 \t@echo "  sffms      to make LaTeX files for Standard Manuscript Format"
@@ -215,6 +226,11 @@ singlehtml:
 \t$(SPHINXBUILD) -b singlehtml $(ALLSPHINXOPTS) $(BUILDDIR)/singlehtml
 \t@echo
 \t@echo "Build finished. The HTML page is in $(BUILDDIR)/singlehtml."
+
+epub:
+\t$(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
+\t@echo
+\t@echo "Build finished. The epub file is in $(BUILDDIR)/epub."
 
 latex:
 \t$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
