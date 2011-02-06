@@ -1,12 +1,13 @@
+import codecs
+from os import path
+from docutils.io import StringOutput
+
 from sphinx.builders import Builder
 from sphinx.util.osutil import ensuredir, os_path
 from sphinx.util.console import bold, darkgreen
 from sphinx.util.nodes import inline_all_toctrees
-from docutils.io import StringOutput
-from os import path
-import codecs
 
-from writers import SffmsWriter
+from sffms.writers import SffmsWriter
 from sffms.quickstart.templates import makefile_sffms
 
 class SffmsBuilder(Builder):
