@@ -193,6 +193,8 @@ help:
 \t@echo "  epub       to make an epub"
 \t@echo "  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter"
 \t@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
+\t@echo "  sffms      to make LaTeX files for Standard Manuscript Format"
+\t@echo "  sffmspdf   to make LaTeX files for Standard Manuscript Format and run them through pdflatex"
 \t@echo "  text       to make text files"
 
 clean:
@@ -225,6 +227,19 @@ latexpdf:
 \t@echo "Running LaTeX files through pdflatex..."
 \tmake -C $(BUILDDIR)/latex all-pdf
 \t@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
+
+sffms:
+\t$(SPHINXBUILD) -b sffms $(ALLSPHINXOPTS) $(BUILDDIR)/sffms
+\t@echo
+\t@echo "Build finished; the LaTeX files are in $(BUILDDIR)/sffms."
+\t@echo "Run \\`make' in that directory to run these through (pdf)latex" \\
+\t      "(use \\`make sffmspdf' here to do that automatically)."
+
+sffmspdf:
+\t$(SPHINXBUILD) -b sffms $(ALLSPHINXOPTS) $(BUILDDIR)/sffms
+\t@echo "Running LaTeX files through pdflatex..."
+\tmake -C $(BUILDDIR)/sffms all-pdf
+\t@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/sffms."
 
 text:
 \t$(SPHINXBUILD) -b text $(ALLSPHINXOPTS) $(BUILDDIR)/text
