@@ -181,7 +181,7 @@ It was a dark and stormy night...
 # Adapted from the sphinx-quickstart manual. Added sffms targets
 # and stripped out some of the more obscure targets.
 makefile = '''\
-# Makefile for Sphinx documentation
+# Makefile for sffms manuscripts
 #
 
 # You can set these variables from the command line.
@@ -265,7 +265,6 @@ text:
 '''
 
 makefile_sffms = '''\
-# Makefile for Sphinx LaTeX output
 # Makefile for sffms LaTeX output
 
 ALLDOCS = $(basename $(wildcard *.tex))
