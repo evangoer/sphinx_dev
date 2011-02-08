@@ -3,11 +3,11 @@ from distutils.core import setup
 setup(
     name = 'sffms',
     packages = ['sffms', 'sffms.quickstart'],
-    version = '0.9.3',
+    version = '0.9.4',
     description = 'Sffms-style LaTeX output for Sphinx',
     author = 'Evan Goer',
     author_email = 'evan@goer.org',
-    url = 'http://github.com/evangoer/sphinx-dev/sffms',
+    url = 'https://github.com/evangoer/sphinx_dev/tree/master/sffms',
     requires = ['Sphinx (>=1.0)'],
     classifiers = [
         'Development Status :: 4 - Beta',
