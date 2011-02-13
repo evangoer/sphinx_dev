@@ -130,7 +130,7 @@ latex_documents = [
 
 opening_lines = [
     "It was a dark and stormy night...",
-    "It is a truth universally acknowldged, that a single man in possession \nof a good fortune, must be in want of a wife.",
+    "It is a truth universally acknowledged, that a single man in possession \nof a good fortune must be in want of a wife.",
     "Call me Ishmael.",
     "You don't know about me without you have read a book by the name of \nThe Adventures of Tom Sawyer; but that ain't no matter.",
     "Happy families are all alike; every unhappy family is unhappy in its own way.",
@@ -139,7 +139,21 @@ opening_lines = [
     "Dorothy lived in the midst of the great Kansas prairies, with Uncle \nHenry, who was a farmer, and Aunt Em, who was the farmer's wife.",
     "Happy families are all alike; every unhappy family is unhappy in \nits own way.",
     "I am a sick man.... I am a spiteful man.  I am an unattractive man.  \nMy liver hurts.",
-    "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet \nhole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, \nsandy hole with nothing in it to sit down on or to eat: it was a \nhobbit-hole, and that means comfort."
+    "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet \nhole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, \nsandy hole with nothing in it to sit down on or to eat: it was a \nhobbit-hole, and that means comfort.",
+    "It was a queer, sultry summer, the summer they electrocuted \nthe Rosenbergs, and I didn't know what I was doing in New York.",
+    "The most merciful thing in the world, I think, is the inability \nof the human mind to correlate all its contents.",
+    "Marley was dead, to begin with.",
+    "We were somewhere around Barstow on the edge of the desert when \nthe drugs began to take hold.",
+    "His name was Gaal Dornick and he was just a country boy who had \nnever seen Trantor before.",
+    "A screaming comes across the sky.",
+    "Mr Sherlock Holmes, who was usually very late in the mornings, \nsave upon those not infrequent occasions when he stayed up all night, \nwas seated at the breakfast table.",
+    "Some years ago there was in the city of York a society of magicians.",
+    "It was seven o'clock of a very warm evening in the Seeonee hills \nwhen Father Wolf woke up from his day's rest, scratched himself, yawned, \nand spread out his paws one after the other to get rid of the sleepy feeling in their tips.",
+    "It was inevitable: the scent of bitter almonds always reminded him \nof the fate of unrequited love.",
+    "It was a bright cold day in April, and the clocks were striking thirteen.",
+    "Robert Cohn was once middleweight boxing champion of Princeton. \nDo not think that I am very much impressed by that as a boxing title, \nbut it meant a lot to Cohn.",
+    "Nick Naylor had been called many things since becoming the \nchief spokesman for the Academy of Tobacco Studies, but until now no one \nhad actually compared him to Satan.",
+    "There was a boy called Eustace Clarence Scrubb, and he almost deserved it."
 ]
 
 story_ms = '''\
