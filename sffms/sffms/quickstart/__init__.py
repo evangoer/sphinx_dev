@@ -2,8 +2,9 @@ import sys
 import os
 import time
 import codecs
+import random
 
-from sphinx.quickstart import do_prompt, boolean, is_path, ok, mkdir_p
+from sphinx.quickstart import do_prompt, boolean, is_path, ok, mkdir_p, ValidationError
 from sphinx.util.console import bold
 
 import sffms.quickstart.templates
@@ -70,7 +71,7 @@ short version could be 'A Scandal in Bohemia.' '''
     do_prompt(fields, 'runningtitle', 'Enter your manuscript\'s short title (optional)', validator=optional)
     
     print ''
-    do_prompt(fields, 'author', 'Enter your full name', validator=py_sanitize)
+    do_prompt(fields, 'author', 'Enter your full name', validator=required_string)
     
     print '''
 Your full name (or surname, if specified) appears in the 
@@ -132,7 +133,12 @@ def prompt_address(fields):
                 fields['address'] += '\n'
             fields['address'] += fields[address_line].strip()
             i = i + 1
-            
+
+def required_string(field):
+    if not field:
+        raise ValidationError("Please enter some text.")
+    return py_sanitize(field)
+    
 def optional(field):
     if field.strip() is '':
         return None
@@ -142,6 +148,7 @@ def optional(field):
 def generate_reST_title(title):
     bar = '#' * len(title)
     return bar + '\n' + title + '\n' + bar
+    
 
 def make_path(path):
     if not os.path.isdir(path):
@@ -153,11 +160,16 @@ def write_file(contents, path, filename):
     f.close()
 
 def write_skeleton_files(fields):
+    opening_lines = random.sample(templates.opening_lines, 2)
+    fields['opening_line_a'] = opening_lines[0]
+    fields['opening_line_b'] = opening_lines[1]
+    
     path = fields['path']
+    
     if fields['novel'] is True:
         write_file(templates.novel_ms % fields, path, fields['master_doc'] + '.txt')
-        write_file(templates.novel_new_chapter, path, 'new_chapter.txt')
-        write_file(templates.novel_more_stuff, path, 'more_stuff.txt')
+        write_file(templates.novel_new_chapter % fields, path, 'new_chapter.txt')
+        write_file(templates.novel_more_stuff % fields, path, 'more_stuff.txt')
     else:
         write_file(templates.story_ms % fields, path, fields['master_doc'] + '.txt')
 
@@ -172,5 +184,6 @@ def print_success(fields):
         print 'You should now begin adding material to %s.txt.' % fields['master_doc']
     print 'To generate PDF, run the command ' + bold('make sffmspdf') + ' in the directory.'
     print 'Happy writing!'
+    print 
     
     

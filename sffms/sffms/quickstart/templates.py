@@ -127,6 +127,21 @@ latex_documents = [
 ]
 
 '''
+
+opening_lines = [
+    "It was a dark and stormy night...",
+    "It is a truth universally acknowldged, that a single man in possession \nof a good fortune, must be in want of a wife.",
+    "Call me Ishmael.",
+    "You don't know about me without you have read a book by the name of \nThe Adventures of Tom Sawyer; but that ain't no matter.",
+    "Happy families are all alike; every unhappy family is unhappy in its own way.",
+    "One morning, when Gregor Samsa woke from troubled dreams, he found \nhimself transformed in his bed into a horrible vermin.",
+    "Alice was beginning to get very tired of sitting by her sister on the \nbank, and of having nothing to do: once or twice she had peeped into the \nbook her sister was reading, but it had no pictures or conversations in \nit, 'and what is the use of a book,' thought Alice 'without pictures or \nconversation?'",
+    "Dorothy lived in the midst of the great Kansas prairies, with Uncle \nHenry, who was a farmer, and Aunt Em, who was the farmer's wife.",
+    "Happy families are all alike; every unhappy family is unhappy in \nits own way.",
+    "I am a sick man.... I am a spiteful man.  I am an unattractive man.  \nMy liver hurts.",
+    "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet \nhole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, \nsandy hole with nothing in it to sit down on or to eat: it was a \nhobbit-hole, and that means comfort."
+]
+
 story_ms = '''\
 .. Master manuscript file, created by sffms-quickstart on %(now)s. 
    You may add new paragraphs (and optionally, new scene breaks) directly 
@@ -135,13 +150,12 @@ story_ms = '''\
 
 %(reST_title)s
 
-It is a truth universally acknowledged, that a single man in possession
-of a good fortune, must be in want of a wife.
+%(opening_line_a)s
 
 Scene Break
 ===========
 
-It was a dark and stormy night...
+%(opening_line_b)s
 
 '''
 
@@ -166,8 +180,7 @@ novel_new_chapter = '''\
 In the Beginning
 ****************
 
-It is a truth universally acknowledged, that a single man in possession
-of a good fortune, must be in want of a wife.
+%(opening_line_a)s
 '''
 
 novel_more_stuff = '''\
@@ -175,7 +188,7 @@ novel_more_stuff = '''\
 I Need a Chapter Title
 **********************
 
-It was a dark and stormy night...
+%(opening_line_b)s
 '''
 
 # Adapted from the sphinx-quickstart manual. Added sffms targets
