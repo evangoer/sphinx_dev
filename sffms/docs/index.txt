@@ -12,7 +12,8 @@ short stories or novels using Sphinx, you can use this extension to
 create PDFs that adhere to
 `Standard Manuscript Format <http://www.cs.cmu.edu/~mslee/format.html>`_.
 
-Contents:
+Table of Contents
+=================
 
 .. toctree::
    :maxdepth: 2
@@ -25,6 +26,9 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+
+.. include:: ../CHANGELOG.rst
+
+
 

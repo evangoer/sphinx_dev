@@ -1,7 +1,7 @@
 sffms LaTeX Extension for Sphinx
 ================================
 
-Implements sffms-style LaTeX output for ReST + Sphinx, as specified by
+Implements sffms-style LaTeX output for reST + Sphinx, as specified by
 http://www.mcdemarco.net/sffms/.
 
 Sffms is a LaTeX document class for typesetting fiction manuscripts.
@@ -13,7 +13,7 @@ configuration options for customizing your output.
 
 You can use this package to author short stories and novels without 
 having to write any raw LaTeX, while still taking advantage of Sphinx's 
-flexible HTML and ePub capabilities.
+flexible HTML and EPUB capabilities.
 
 .. note:: The sffms Builder only supports a small number of directives
           and roles that are appropriate for fiction writing, such as
