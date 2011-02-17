@@ -18,9 +18,9 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
-   introduction.txt
-   configuration.txt
-   markup.txt
+   introduction.rst
+   configuration.rst
+   markup.rst
 
 Indices and tables
 ==================
