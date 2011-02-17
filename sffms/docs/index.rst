@@ -31,6 +31,7 @@ Table of Contents
 
    introduction.rst
    installation.rst
+   creation.rst
    configuration.rst
    markup.rst
 

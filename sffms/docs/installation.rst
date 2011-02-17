@@ -1,10 +1,5 @@
-Installation and Setup
-======================
-
-This section describes how to get started with sffms. 
-
-Installing LaTeX, Python, and sffms
------------------------------------
+Installation and System Requirements
+====================================
 
 To set up your environment for sffms, you need working versions of:
 
@@ -14,10 +9,7 @@ To set up your environment for sffms, you need working versions of:
 * Sphinx 1.0.5 or above
 
 There are *many* ways to set up this environment. Following is a simple outline of 
-what to do. Advanced users might want to take advantage of their system's package 
-management system to install TeX or Python, or use
-`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to create an isolated 
-Python environment.
+what to do. 
 
  1. Install a `TeX distribution <http://www.tug.org/>`_ that includes LaTeX and 
     the `sffms LaTeX class <http://www.mcdemarco.net/sffms>`_. Popular TeX 
@@ -53,24 +45,8 @@ Python environment.
         $ sudo pip install Sphinx
         $ sudo pip install sffms
 
-
-Creating a New Manuscript
--------------------------
-
-Now that you are set up to use sffms, you need to create your first manuscript. An
-sffms manuscript is actually a directory that contains a collection of files:
-
-* a :file:`conf.py` file that provides metadata such as your name and address
-* a master manuscript file that either contains your entire story, or contains references to separate chapter files
-* one or more chapter files (if you are writing a multi-file story)
-* a :file:`Makefile` that makes generating your story easier
-
-Fortunately, you do not have to create these files by hand. The sffms package 
-includes a program called :program:`sffms-quickstart` that prompts you with 
-questions and then uses your answers to generate a skeleton manuscript for you.
-
-To create a new manuscript:
-
-1. Run :program:`sffms-quickstart` at the command line.
-
-2. [TODO]
+Of course, if you are an advanced user, you can install these components any way
+that seems sensible to you. For example, you might want to take advantage of your 
+system's package management system to install TeX or Python, or use
+`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to create an isolated 
+Python environment.
