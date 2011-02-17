@@ -19,6 +19,7 @@ Table of Contents
    :maxdepth: 2
 
    introduction.rst
+   installation.rst
    configuration.rst
    markup.rst
 
