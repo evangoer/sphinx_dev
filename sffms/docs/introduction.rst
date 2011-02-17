@@ -23,12 +23,14 @@ What are Sphinx and reStructuredText?
 
 For the fiction writer, what Sphinx brings to the table is solid, easy to use HTML production. If you don't like the built-in HTML templates, it's straightforward to hack your own. Sphinx also produces EPUB out of the box, as should all writing tools worthy of your consideration.
 
-Sphinx also produces LaTeX output. The problem with Sphinx's LaTeX output is that it's designed to typeset a nice looking technical manual, not a novel. Great for technical writers and software engineers, not so great for novelists. But we can fix this. We have the technology!
+Sphinx also produces LaTeX output. The problem with Sphinx's LaTeX output is that it's designed to typeset a nice looking technical manual, not a novel. Great for technical writers and software engineers, not so great for fiction writers. 
+
+This is the problem that sffms solves.
 
 What is sffms LaTeX?
 --------------------
 
-`Sffms <http://www.mcdemarco.net/sffms/>`_, developed by `M. C. DeMarco <http://www.mcdemarco.net/>`_, is a LaTeX document class for typesetting fiction manuscripts. It supports Standard Manuscript Format, including:
+The `sffms <http://www.mcdemarco.net/sffms/>`_ LaTeX document class was developed by `M. C. DeMarco <http://www.mcdemarco.net/>`_ to typeset fiction manuscripts. It supports Standard Manuscript Format, including:
 
 * a double-spaced manuscript in a 12-point monospaced font with one-inch margins 
 * running headers of the form Author/TITLE/n, where n is the current page number
@@ -37,15 +39,15 @@ What is sffms LaTeX?
 * conversion of italics, boldface, and small caps to appropriately underlined text
 * many other niceties
 
-All the ``sffms`` Python package does is glue Sphinx and sffms LaTeX together. When this extension is installed, you can configure Sphinx to convert your reStructuredText into LaTeX suitable for fiction instead of LaTeX suitable for technical documentation. 
+All the ``sffms`` Python package does is glue Sphinx and sffms LaTeX together. When this extension is installed, Sphinx can convert your reStructuredText into LaTeX suitable for fiction instead of LaTeX suitable for technical documentation. 
 
 Why not just write directly in LaTeX?
 -------------------------------------
 
-Maybe you should! Writing in LaTeX isn't actually that difficult, and DeMarco has `documented sffms <http://www.mcdemarco.net/sffms/class/sffms.pdf>`_ to the point where you can use sffms without actually knowing much about LaTeX itself. Even for non-experts, hand authoring a story in LaTeX is easier and cleaner than, say, hand authoring the same thing in HTML or some dialect of XML. It's all fairly civilized.
+Maybe you should! Writing in LaTeX isn't actually that difficult, and DeMarco has `documented sffms <http://www.mcdemarco.net/sffms/class/sffms.pdf>`_ to the point where you can use sffms without actually knowing much about LaTeX itself. Even for non-experts, hand authoring a story in LaTeX is easier and cleaner than, say, hand authoring the same thing in HTML. It's all fairly civilized.
 
-A minor point in reStructuredText's favor is that reST is a *little* easier to write in than LaTeX. But if you're writing fiction, the mental overhead of working in either format is fairly close.
+A minor point in reStructuredText's favor is that reST is a *little* easier to write in than LaTeX. reST's syntax is a little cleaner, and LaTeX has a number of reserved characters to watch out for. But if you're writing fiction, the mental overhead of working in either format is fairly close.
 
-The bigger advantage of reStructuredText is that the LaTeX toolchain really only shines for print. TeX to HTML conversion tools are uniformly kludgy and horrible, and they're particularly bad with sffms, which has some differences from a "normal" LaTeX manuscript that trip up the common TeX to HTML converters.
+The bigger advantage of reStructuredText is that the LaTeX toolchain really only shines for print. TeX to HTML conversion tools are  uniformly kludgy and horrible, and they're particularly bad with sffms, which has some differences from a "normal" LaTeX manuscript that trip up most TeX to HTML converters.
 
-So if all you care about is submitting manuscripts to publishers, you are golden with LaTeX and sffms. But if you want anything even remotely reasonable to post to the web, you'll need to roll your own converter. Or read on.
+So if all you care about is submitting manuscripts to publishers, you can just work in sffms LaTeX directly. But if you want anything even remotely reasonable to post to the web, you'll want to roll your own converter. Or read on.
