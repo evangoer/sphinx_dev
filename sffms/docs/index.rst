@@ -19,9 +19,9 @@ This Python package has only been tested and verified to work:
 * with Sphinx 1.0.5
 * using an old TeTeX distribution with the sffms LaTeX class manually installed
 
-This package should work with a wider variety of environments -- in theory. 
+This package *should* work with a wider variety of environments -- in theory. 
 If you have sffms installed and working with some other combination of software, 
-please `let the author know <http://www.goer.org/About/#contact>`_.
+please `let me know <http://www.goer.org/About/#contact>`_.
 
 Table of Contents
 =================
@@ -32,8 +32,8 @@ Table of Contents
    introduction.rst
    installation.rst
    creation.rst
-   configuration.rst
    markup.rst
+   configuration.rst
 
 Indices and tables
 ==================
