@@ -74,7 +74,7 @@ class SffmsTranslator(nodes.NodeVisitor):
         # We do not actually want to emit a new scene or chapter for
         # the top-level section.
         if self.is_toplevel_section(node):
-            pass
+            self.body.append(self.new_toplevel_section(node))
         elif self.is_new_chapter(node):
             self.body.append(self.new_chapter(node))
         else:
@@ -117,6 +117,19 @@ class SffmsTranslator(nodes.NodeVisitor):
             return '\n\chapter' + sn + '{' + title.astext() + '}\n'
         else:
             raise SyntaxError("This chapter does not seem to have a title. That shouldn't be possible...")
+
+    def new_toplevel_section(self, node):
+        sn = node.next_node(condition=suppress_numbering)
+        if isinstance(sn, suppress_numbering) and sn.parent is node:
+            sn = '*'
+        else:
+            sn = ''
+
+        title = node.next_node()
+        if isinstance(title, nodes.title):
+            return '\n\chapter*' + sn + '{' + title.astext() + '}\n'
+        else:
+            raise SyntaxError("This  does not seem to have a title. That shouldn't be possible...")
     
     def depart_section(self, node): pass
     
